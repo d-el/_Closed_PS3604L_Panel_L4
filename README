@@ -1,0 +1,4 @@
+This repository include source code for "Panel power supply PS3604"
+MCU: STM32L433CCT6:
+    LQFP48, Ultra-low-power ARM® Cortex®-M4 32-bit MCU+FPU, 100DMIPS,
+    up to 256KB Flash, 64KB SRAM, USB FS, LCD, analog, audio
