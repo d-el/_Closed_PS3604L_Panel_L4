@@ -27,7 +27,6 @@ void baseTSK(void *pPrm){
     baseVar_type    		varParam = VAR_VOLT;
     uint32_t				measV;	//[uV]
     uint32_t				measI;	//[uA]
-    uint8_t         		fvarParamNew = 1;
     uint8_t 				bigstepUp = 0;
     uint8_t 				bigstepDown = 0;
     uint8_t					setDef		= 0;
@@ -51,7 +50,6 @@ void baseTSK(void *pPrm){
 
             if(keyState(kNext)){
                 varParam++;
-                fvarParamNew = 1;
                 if(varParam >= 3){
                 	varParam = VAR_VOLT;
                 }

@@ -6,8 +6,9 @@
 * @brief   --
 */
 
-#include "stdint.h"
-#include "stm32l4xx.h"
+/*!****************************************************************************
+* User include
+*/
 #include "debugCore.h"
 
 /*!****************************************************************************
@@ -20,8 +21,6 @@
 *         0 - debug mode disable
 */
 uint32_t coreIsInDebugMode(void){
-    volatile uint32_t _DHCSR;
-
     if((CoreDebug->DHCSR & CoreDebug_DHCSR_C_DEBUGEN_Msk) != 0){
         return 1;   //Debug mode enable
     }

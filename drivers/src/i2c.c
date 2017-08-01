@@ -220,7 +220,7 @@ void i2c_read(i2c_type *i2cx, void *dst, uint16_t len, uint8_t slaveAdr){
 * I2C ERROR HANDLER
 */
 void i2cErrorHendler(i2c_type *i2cx){
-	__IO uint32_t  I2Cx_SR1 = i2cx->I2C->ISR;
+	//__IO uint32_t  I2Cx_SR1 = i2cx->I2C->ISR;
 }
 
 

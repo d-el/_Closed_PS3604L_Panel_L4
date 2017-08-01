@@ -23,7 +23,6 @@ void chargeTSK(void *pPrm){
     uint32_t				measV;	//[uV]
     uint32_t				measI;	//[uA]
     uint8_t         		varParam = 0;
-    uint8_t         		fVarParamNew = 1;
     uint8_t 				bigstepUp = 0;
     uint8_t 				bigstepDown = 0;
     uint8_t					setDef		= 0;
@@ -45,7 +44,6 @@ void chargeTSK(void *pPrm){
             BeepTime(ui.beep.key.time, ui.beep.key.freq);
 			if(keyState(kNext)){
 				varParam++;
-				fVarParamNew = 1;
 				if(varParam == 4) varParam = 0;
 			}
 			else if(keyState(kMode)){

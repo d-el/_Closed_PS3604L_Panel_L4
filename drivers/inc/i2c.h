@@ -58,17 +58,17 @@
 * User typedef
 */
 typedef enum{
-    i2cUnknownState,    
+    i2cUnknownState,
     i2cFree,
     i2cTxRun,
     i2cRxRun,
     i2cDmaRefresh,
     i2cTxSuccess,
     i2cRxSuccess,
-    
+
     i2cErrTx,
     i2cErrRx,
-    
+
     i2cOk,
     i2cBusError,
     i2cAcknowledgeFailure,
@@ -82,7 +82,7 @@ typedef enum{
     i2cWithoutStop
 }i2c_stopMode_type;
 
-typedef struct{   
+typedef struct{
     uint32_t            		clockSpeed;     //[Hz]
     I2C_TypeDef         		*I2C;
     DMA_Channel_TypeDef 		*pDmaTxDmaCh;
@@ -131,7 +131,7 @@ extern uint8_t         i2c3RxBff[I2C3_RxBffSz];
 * Macro functions
 */
 static inline void i2c2TC_Hook(void){
-    BaseType_t  xHigherPriorityTaskWoken;
+    //BaseType_t  xHigherPriorityTaskWoken;
     //xHigherPriorityTaskWoken = pdFALSE;
     //xSemaphoreGiveFromISR(i2c2Sem, &xHigherPriorityTaskWoken);
     //if (xHigherPriorityTaskWoken != pdFALSE){
