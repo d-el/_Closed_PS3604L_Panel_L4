@@ -1,13 +1,14 @@
 ﻿/*!****************************************************************************
- * @file    debugCore.c
- * @author  d_el
- * @version V1.0
- * @date    15.01.2016, by d_el
- * @brief   --
+ * @file		debugCore.h
+ * @author		d_el - Storozhenko Roman
+ * @version		V1.0
+ * @date		15.01.2016
+ * @copyright	GNU Lesser General Public License v3
+ * @brief		Debug utils, HardFault_Handler tracer
  */
 
 /*!****************************************************************************
- * User include
+ * Include
  */
 #include "debugCore.h"
 
@@ -33,7 +34,7 @@ uint32_t coreIsInDebugMode(void){
  * with stack frame location as input parameter
  * called from HardFault_Handler
  */
-void hard_fault_handler_c(unsigned int * stackedContextPtr){
+void hardFaultHandlerC(unsigned int * stackedContextPtr){
 	volatile uint32_t stacked_r0;
 	volatile uint32_t stacked_r1;
 	volatile uint32_t stacked_r2;
@@ -42,7 +43,7 @@ void hard_fault_handler_c(unsigned int * stackedContextPtr){
 	volatile uint32_t stacked_lr;
 	volatile uint32_t stacked_pc;
 	volatile uint32_t stacked_psr;
-	
+
 	stacked_r0 = stackedContextPtr[0];
 	stacked_r1 = stackedContextPtr[1];
 	stacked_r2 = stackedContextPtr[2];
@@ -51,7 +52,7 @@ void hard_fault_handler_c(unsigned int * stackedContextPtr){
 	stacked_lr = stackedContextPtr[5];
 	stacked_pc = stackedContextPtr[6];
 	stacked_psr = stackedContextPtr[7];
-	
+
 	debug("\n\n[GAME OVER]\n");
 	debug("R0 = 0x%008X\n", stacked_r0);
 	debug("R1 = 0x%008X\n", stacked_r1);
@@ -61,28 +62,28 @@ void hard_fault_handler_c(unsigned int * stackedContextPtr){
 	debug("LR [R14] = 0x%08X  subroutine call return address\n", stacked_lr);
 	debug("PC [R15] = 0x%08X  program counter\n", stacked_pc);
 	debug("PSR = 0x%08X\n", stacked_psr);
-	
+
 	// Configurable Fault Status Register
 	// Consists of MMSR, BFSR and UFSR
 	debug("CFSR = 0x%08X\n", SCB->CFSR);
-	
+
 	// Hard Fault Status Register
 	debug("HFSR = 0x%08X\n", SCB->HFSR);
-	
+
 	// Debug Fault Status Register
 	debug("DFSR = 0x%08X\n", SCB->DFSR);
-	
+
 	// Auxiliary Fault Status Register
 	debug("AFSR = 0x%08X\n", SCB->AFSR);
-	
+
 	// Read the Fault Address Registers. These may not contain valid values.
 	// Check BFARVALID/MMARVALID to see if they are valid values
 	// MemManage Fault Address Register
 	debug("MMFAR = 0x%08X\n", SCB->MMFAR);
-	
+
 	// Bus Fault Address Register
 	debug("BFAR = 0x%08X\n", SCB->BFAR);
-	
+
 	asm("BKPT #1");
 	while(1)
 		;
@@ -99,11 +100,11 @@ void HardFault_Handler(void){
 			"		BEQ    _IS_MSP							\n" /* Jump to '_MSP' if processor uses MSP stack.									*/
 			"_IS_PSP:                                       \n"
 			"		MRS    R0, PSP							\n" /* Prepare PSP content as parameter to the calling function below.				*/
-			"		BL	   hard_fault_handler_c      		\n" /* Call 'hardfaultGetContext' passing PSP content as stackedContextPtr value.	*/
+			"		BL	   hardFaultHandlerC      			\n" /* Call 'hardfaultGetContext' passing PSP content as stackedContextPtr value.	*/
 			"_IS_MSP:										\n"
 			"		MRS    R0, MSP							\n" /* Prepare MSP content as parameter to the calling function below.				*/
-			"		BL	   hard_fault_handler_c		        \n" /* Call 'hardfaultGetContext' passing MSP content as stackedContextPtr value.	*/
+			"		BL	   hardFaultHandlerC		        \n" /* Call 'hardfaultGetContext' passing MSP content as stackedContextPtr value.	*/
 			:: );
 }
 
-/***************** (C) COPYRIGHT ************** END OF FILE ******** d_el ****/
+/*************** LGPL ************** END OF FILE *********** D_EL ************/

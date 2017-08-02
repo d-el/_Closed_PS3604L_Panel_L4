@@ -1,44 +1,44 @@
 /*!****************************************************************************
- * @file    		debugCore.h
- * @author  		d_el
- * @version 		V1.0
- * @date    		15.01.2016, by d_el
- * @copyright 	GNU Public License
+ * @file		debugCore.c
+ * @author		d_el - Storozhenko Roman
+ * @version		V1.0
+ * @date		15.01.2016
+ * @copyright	GNU Lesser General Public License v3
+ * @brief		Debug utils, HardFault_Handler tracer
  */
 #ifndef debugCore_H
 #define debugCore_H
 
 /*!****************************************************************************
- * User include
+ * Include
  */
 #include "stm32l4xx.h"
 #include "stdint.h"
 #include "semihosting.h"
 
 /*!****************************************************************************
- * User define
+ * Define
  */
 
 /*!****************************************************************************
- * User typedef
+ * Enumeration
  */
 
 /*!****************************************************************************
- * User enum
+ * Typedef
  */
 
 /*!****************************************************************************
- * Extern viriables
+ * Exported variables
  */
-
 /*!****************************************************************************
  * Macro functions
  */
 
 /*!****************************************************************************
- * Prototypes for the functions
+ * Function declaration
  */
 uint32_t coreIsInDebugMode(void);
 
 #endif //debugCore_H
-/*************** GNU GPL ************** END OF FILE ********* D_EL ***********/
+/*************** LGPL ************** END OF FILE *********** D_EL ************/

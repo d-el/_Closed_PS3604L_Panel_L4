@@ -1,10 +1,10 @@
 ﻿/*!****************************************************************************
- * @file		newLib.c
- * @author		d_el
+ * @file		syscall.c
+ * @author		d_el - Storozhenko Roman
  * @version		V1.0
- * @date		30.12.2016, Storozhenko Roman
- * @update		02.05.2017, Storozhenko Roman
- * @copyright 	GNU Public License
+ * @date		02.05.2017
+ * @copyright	GNU Lesser General Public License v3
+ * @brief		POSIX System Calls
  */
 
 #include <errno.h>
@@ -44,12 +44,12 @@ __attribute__((weak))
 	static caddr_t heapEnd = (caddr_t) &_ebss;
 	caddr_t prevHeapEnd = heapEnd;
 	caddr_t stack = (caddr_t) __get_MSP();
-	
+
 	if(heapEnd + incr >= stack){
 		errno = ENOMEM;
 		abort();
 	}
-	
+
 	heapEnd += incr;
 	return (caddr_t) prevHeapEnd;
 }
@@ -70,7 +70,7 @@ void _exit(int code __attribute__((unused))){
  */
 __attribute__((weak))
 void _init(void){
-	
+
 }
 
 /*!****************************************************************************
@@ -78,7 +78,7 @@ void _init(void){
  */
 __attribute__((weak))
 void _fini(void){
-	
+
 }
 
 /*!****************************************************************************
@@ -88,13 +88,13 @@ __attribute__((weak))
 void __libc_init_array(void){
 	size_t count;
 	size_t i;
-	
+
 	count = __preinit_array_end - __preinit_array_start;
 	for(i = 0; i < count; i++)
 		__preinit_array_start[i]();
-	
+
 	_init();
-	
+
 	count = __init_array_end - __init_array_start;
 	for(i = 0; i < count; i++)
 		__init_array_start[i]();
@@ -107,11 +107,11 @@ __attribute__((weak))
 void __libc_fini_array(void){
 	size_t count;
 	size_t i;
-	
+
 	count = __fini_array_end - __fini_array_start;
 	for(i = count; i > 0; i--)
 		__fini_array_start[i - 1]();
-	
+
 	_fini();
 }
 
@@ -189,4 +189,4 @@ int _read(int file, char *ptr, int len){
 	return -1;
 }
 
-/*************** GNU GPL ************** END OF FILE ********* D_EL ***********/
+/*************** LGPL ************** END OF FILE *********** D_EL ************/
