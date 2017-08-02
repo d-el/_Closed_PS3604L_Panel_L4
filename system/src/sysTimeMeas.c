@@ -4,7 +4,7 @@
  * @version		V1.0
  * @date		01.08.2017
  * @copyright	GNU Lesser General Public License v3
- * @brief		--
+ * @brief		Time meter on DWT cycle counter
  */
 
 /*!****************************************************************************
@@ -16,6 +16,20 @@
  * MEMORY
  */
 sysTimeStruct_type	sysTimeStruct;
+
+/*!****************************************************************************
+ * @brief		Enable DWT cycle counter
+ */
+void sysTimeMeasEnable(void){
+	DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;	//Enable the CYCCNT
+}
+
+/*!****************************************************************************
+ * @brief		Disable DWT cycle counter
+ */
+void sysTimeMeasDisable(void){
+	DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;	//Enable the CYCCNT
+}
 
 /*!****************************************************************************
  * @brief		Get time in cycles

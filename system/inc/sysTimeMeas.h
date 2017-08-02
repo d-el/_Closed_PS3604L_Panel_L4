@@ -2,9 +2,9 @@
  * @file		sysTimeMeas.h
  * @author		d_el - Storozhenko Roman
  * @version		V1.0
- * @date		1 авг. 2017 г.
+ * @date		01.08.2017
  * @copyright	GNU Lesser General Public License v3
- * @brief		--
+ * @brief		Time meter on DWT cycle counter
  */
 #ifndef sysTimeMeas_H
 #define sysTimeMeas_H
@@ -72,6 +72,8 @@ static inline void sysTimeMeasStop(sysTimeNumber_type n){
 /*!****************************************************************************
  * Function declaration
  */
+void sysTimeMeasEnable(void);
+void sysTimeMeasDisable(void);
 void sysTimeMeasStart(sysTimeNumber_type n);
 void sysTimeMeasStop(sysTimeNumber_type n);
 uint32_t sysTimeMeasGet_cycles(sysTimeNumber_type n);

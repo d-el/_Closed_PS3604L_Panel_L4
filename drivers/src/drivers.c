@@ -35,9 +35,11 @@ void shutdown(void){
 */
 void Init_Hard(void){
 	nvMem_state_type nvMemState;
+
     clock_init();
     gpio_init();
     delTim_init();
+    sysTimeMeasEnable();
     enco_init();
     beep_init();
     ledPwm_init();
