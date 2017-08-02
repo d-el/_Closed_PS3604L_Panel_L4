@@ -104,16 +104,14 @@ void loadParameters(void){
 
 	nvMemState = nvMem_loadPrm(&systemSettingRegion);
 	if(nvMemState != nvMem_ok){
-		//Инициализация по умолчанию
-		//systemInitDef();
+		fp.state.sysSettingLoadDefault = 1;
 	}
 	nvMemState = nvMem_loadPrm(&userConfRegion);
 	if(nvMemState != nvMem_ok){
 		//Попробуем считать резервную копию
 		nvMemState = nvMem_loadPrm(&userReservConfRegion);
 		if(nvMemState != nvMem_ok){
-			//Инициализация по умолчанию
-			//userInitDef();
+			fp.state.userSettingLoadDefault = 1;
 		}
 	}else{
 		nvMem_savePrm(&userReservConfRegion);

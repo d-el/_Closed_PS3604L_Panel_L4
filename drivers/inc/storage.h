@@ -29,7 +29,7 @@
 #define SIZE_BUFF           (128)
 #define nvMemBaseAdr        ((void*)(0))	///< Адрес в памяти для хранения данных
 #define nvMemResAdr         ((void*)(512))	///< Адрес в памяти для хранения резервной копии данных
-#define nvMemSignature      (0x2805)		///< Используемая сигнатура пакета (любая 16 бит константа)
+#define nvMemSignature      (0x2806)		///< Используемая сигнатура пакета (любая 16 бит константа)
 
 //Перенаправление ф-й
 #define nvMem_prepareMemory(pDst, len)

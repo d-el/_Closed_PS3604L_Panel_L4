@@ -43,11 +43,15 @@ typedef struct {
  * User enum
  */
 enum {
-	C_VOLT = 0, C_CURR = 1, C_TIME = 2, C_MODE = 3,
+	C_VOLT = 0,
+	C_CURR = 1,
+	C_TIME = 2,
+	C_MODE = 3,
 };
 
 enum {
-	ch_modeTime = 0, ch_modeCurrent = 1,
+	ch_modeTime = 0,
+	ch_modeCurrent = 1,
 };
 
 /******************************************************************************
