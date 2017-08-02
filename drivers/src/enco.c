@@ -1,105 +1,81 @@
 ﻿/*!****************************************************************************
-* @file    enco.c
-* @author  Storozhenko Roman - D_EL
-* @version V2.3
-* @date    13.05.2015 
-* @date    14.11.2016   fix "temp > enco.top"
-* @brief   encoder driver, stm32f1
-* @copyright GNU Public License
-*/
+ * @file    enco.c
+ * @author  Storozhenko Roman - D_EL
+ * @version V2.3
+ * @date    13.05.2015
+ * @date    14.11.2016   fix "temp > enco.top"
+ * @brief   encoder driver, stm32f1
+ * @copyright GNU Public License
+ */
 
 /*!****************************************************************************
-* Include
-*/
+ * Include
+ */
 #include "enco.h"
 
 /******************************************************************************
-* MEMORY
-*/
-enco_type   	enco;
-prmHandle_type	*encoLink;
+ * MEMORY
+ */
+enco_type enco;
+prmHandle_type *encoLink;
 
 /*!****************************************************************************
-* @brief  Настройка периферии МК для работы с инкрементальным энкодером
-*/
+ * @brief  Настройка периферии МК для работы с инкрементальным энкодером
+ */
 void enco_init(void){
-    gppin_init(GPIOA, 8, alternateFunctionPushPull, pullUp, 0, 1);  				//GPIOA8 TIM1_CH1
-    gppin_init(GPIOA, 9, alternateFunctionPushPull, pullUp, 0, 1);  				//GPIOA9 TIM1_CH2
+	gppin_init(GPIOA, 8, alternateFunctionPushPull, pullUp, 0, 1);  				//GPIOA8 TIM1_CH1
+	gppin_init(GPIOA, 9, alternateFunctionPushPull, pullUp, 0, 1);  				//GPIOA9 TIM1_CH2
 
-    //Настройка таймера
-    RCC->APB2ENR 	|= RCC_APB2ENR_TIM1EN;                       	//Clock enable
+	//Настройка таймера
+	RCC->APB2ENR |= RCC_APB2ENR_TIM1EN;                       	//Clock enable
 
-    TIM1->CCMR1  	= TIM_CCMR1_CC2S_0 | TIM_CCMR1_CC1S_0;         	//Capture/Compare  selection T2, T1
-    TIM1->CCMR1 	|= (TIM_CCMR1_IC2PSC_1 | TIM_CCMR1_IC1PSC_1); 	//Capture is done once every 4 events
-    TIM1->CCMR1 	|= TIM_CCMR1_IC1F | TIM_CCMR1_IC2F;         	//Input capture 1 filter fSAMPLING=fDTS/32, N=8
+	TIM1->CCMR1 = TIM_CCMR1_CC2S_0 | TIM_CCMR1_CC1S_0;         	//Capture/Compare  selection T2, T1
+	TIM1->CCMR1 |= (TIM_CCMR1_IC2PSC_1 | TIM_CCMR1_IC1PSC_1); 	//Capture is done once every 4 events
+	TIM1->CCMR1 |= TIM_CCMR1_IC1F | TIM_CCMR1_IC2F;         	//Input capture 1 filter fSAMPLING=fDTS/32, N=8
 
-    TIM1->CCER   	|= TIM_CCER_CC1P;								//Capture/Compare output polarity - inverted/falling edge
-	TIM1->CCER   	|= TIM_CCER_CC2P;								//Capture/Compare output polarity - inverted/falling edge
+	TIM1->CCER |= TIM_CCER_CC1P;								//Capture/Compare output polarity - inverted/falling edge
+	TIM1->CCER |= TIM_CCER_CC2P;								//Capture/Compare output polarity - inverted/falling edge
 
-    TIM1->CCER 		|= TIM_CCER_CC1E;								//Capture/Compare 1 output enable
-    TIM1->CCER 		|= TIM_CCER_CC2E;								//Capture/Compare 2 output enable
+	TIM1->CCER |= TIM_CCER_CC1E;								//Capture/Compare 1 output enable
+	TIM1->CCER |= TIM_CCER_CC2E;								//Capture/Compare 2 output enable
 
-    TIM1->SMCR  	|= TIM_SMCR_SMS_0 | TIM_SMCR_SMS_1;				//Encoder mode 3 - Counter counts up/down on both TI1FP1 and TI2FP2 edges
+	TIM1->SMCR |= TIM_SMCR_SMS_0 | TIM_SMCR_SMS_1;				//Encoder mode 3 - Counter counts up/down on both TI1FP1 and TI2FP2 edges
 
-    TIM1->ARR   	= 0xFFFF;                                       //Значение, до которого считает
-    TIM1->SMCR  	|= TIM_SMCR_ETPS_1;								//ETRP frequency divided by 4
-    TIM1->CNT 		= (0xFFFF / 4) / 2;
-    TIM1->CR1   	|= TIM_CR1_CEN;                                  //Timer enable
+	TIM1->ARR = 0xFFFF;                                       //Значение, до которого считает
+	TIM1->SMCR |= TIM_SMCR_ETPS_1;								//ETRP frequency divided by 4
+	TIM1->CNT = (0xFFFF / 4) / 2;
+	TIM1->CR1 |= TIM_CR1_CEN;                                  //Timer enable
 }
 
 /*!****************************************************************************
-* @brief
-*/
+ * @brief
+ */
 uint16_t enGeReg(void){
 	return TIM1->CNT;
 }
 
 /*!****************************************************************************
-* @brief
-*/
+ * @brief
+ */
 void enSetReg(uint16_t val){
 	TIM1->CNT = val;
 }
 
 /*!****************************************************************************
-* @brief
-*/
-void enWriteVal(const prmHandle_type *prmHandle, const prmval_type	*prmval){
-	switch(prmHandle->type){
-		case u8Frmt:
-			prmHandle->prm->_u8Frmt = prmval->_u8Frmt;
-			break;
-		case s8Frmt:
-			prmHandle->prm->_s8Frmt = prmval->_s8Frmt;
-			break;
-		case u16Frmt:
-			prmHandle->prm->_u16Frmt = prmval->_u16Frmt;
-			break;
-		case s16Frmt:
-			prmHandle->prm->_s16Frmt = prmval->_s16Frmt;
-			break;
-		case u32Frmt:
-			unixTimeFrmt:
-			unixDateFrmt:
-			prmHandle->prm->_u32Frmt = prmval->_u32Frmt;
-			break;
-		case s32Frmt:
-			prmHandle->prm->_s32Frmt = prmval->_s32Frmt;
-			break;
-		case floatFrmt:
-			prmHandle->prm->_floatFrmt = prmval->_floatFrmt;
-			break;
-	}
+ * @brief
+ */
+void enWriteVal(const prmHandle_type *prmHandle, const prmval_type *prmval){
+	prm_setVal(prmHandle, prmval);
 }
 
 /*!****************************************************************************
-* @brief
-* @retval enNoLim, enLimDown, enLimUp
-*/
+ * @brief
+ * @retval enNoLim, enLimDown, enLimUp
+ */
 enStatus_type enAdd(const prmHandle_type *prmHandle, const prmval_type *prmval, int32_t multiply){
-	int32_t 	s32t;
-	int64_t 	s64t;
-	float		ftemp;
+	int32_t s32t;
+	int64_t s64t;
+	float 	ftemp;
 
 	switch(prmHandle->type){
 		case u8Frmt:
@@ -155,7 +131,7 @@ enStatus_type enAdd(const prmHandle_type *prmHandle, const prmval_type *prmval, 
 			break;
 
 		case u32Frmt:
-			s64t = prmHandle->prm->_u32Frmt + ((int64_t)prmval->_u32Frmt * multiply);
+			s64t = prmHandle->prm->_u32Frmt + ((int64_t) prmval->_u32Frmt * multiply);
 			if(s64t > prmHandle->max._u32Frmt){
 				prmHandle->prm->_u32Frmt = prmHandle->max._u32Frmt;
 				return enLimUp;
@@ -168,7 +144,7 @@ enStatus_type enAdd(const prmHandle_type *prmHandle, const prmval_type *prmval, 
 			break;
 
 		case s32Frmt:
-			s64t = prmHandle->prm->_s32Frmt + ((int64_t)prmval->_s32Frmt * multiply);
+			s64t = prmHandle->prm->_s32Frmt + ((int64_t) prmval->_s32Frmt * multiply);
 			if(s64t > prmHandle->max._s32Frmt){
 				prmHandle->prm->_s32Frmt = prmHandle->max._s32Frmt;
 				return enLimUp;
@@ -194,66 +170,66 @@ enStatus_type enAdd(const prmHandle_type *prmHandle, const prmval_type *prmval, 
 			break;
 	}
 
-    return enNoLim;
+	return enNoLim;
 }
 
 /*!****************************************************************************
-* @brief
-* @retval enNoLim, enLimDown, enLimUp
-*/
+ * @brief
+ * @retval enNoLim, enLimDown, enLimUp
+ */
 enStatus_type enBigStepUp(const prmHandle_type *prmHandle){
-    return enAdd(prmHandle, &prmHandle->bigstep, 1);
+	return enAdd(prmHandle, &prmHandle->bigstep, 1);
 }
 
 /*!****************************************************************************
-* @brief
-* @retval enNoLim, enLimDown, enLimUp
-*/
+ * @brief
+ * @retval enNoLim, enLimDown, enLimUp
+ */
 enStatus_type enBigStepDown(const prmHandle_type *prmHandle){
-    return enAdd(prmHandle, &prmHandle->bigstep, -1);
+	return enAdd(prmHandle, &prmHandle->bigstep, -1);
 }
 
 /*!****************************************************************************
-* @brief  Прочитать значние
-* @retval enNoCharge, enCharge, enLimDown, enLimUp, enTransitionDown, enTransitionUp
-*/
+ * @brief  Прочитать значние
+ * @retval enNoCharge, enCharge, enLimDown, enLimUp, enTransitionDown, enTransitionUp
+ */
 enStatus_type enUpDate(const prmHandle_type *prmHandle){
-    int32_t             step = 0;
-    static uint16_t     ntic = 0;
-    enStatus_type 		status = enNoCharge;
-    
-    if(ntic >= enco.ntic){
-    	//Вынимаем с регистра значение
-        step = enGeReg() - (0xFFFF / 4) / 2;
-        enSetReg((0xFFFF / 4) / 2);
-        //Фильтруем
-        if(step > 0){
-            step = (step + 2) / 4;
-        }else if(step < 0){
-            step = (step - 2) / 4;
-        }else if(step == 0){
-        	return enNoCharge;
-        }
+	int32_t step = 0;
+	static uint16_t ntic = 0;
+	enStatus_type status = enNoCharge;
 
-        //Ускоритель
-        if((step > 2)||(step < -2)){
-            step = step * 5;
-        }
+	if(ntic >= enco.ntic){
+		//Вынимаем с регистра значение
+		step = enGeReg() - (0xFFFF / 4) / 2;
+		enSetReg((0xFFFF / 4) / 2);
+		//Фильтруем
+		if(step > 0){
+			step = (step + 2) / 4;
+		}else if(step < 0){
+			step = (step - 2) / 4;
+		}else if(step == 0){
+			return enNoCharge;
+		}
 
-        status = enAdd(prmHandle, &prmHandle->step, step);
+		//Ускоритель
+		if((step > 2) || (step < -2)){
+			step = step * 5;
+		}
 
-        ntic = 0;
-    }else{
-        ntic++;
-    }
+		status = enAdd(prmHandle, &prmHandle->step, step);
 
-    return status;
+		ntic = 0;
+	}else{
+		ntic++;
+	}
+
+	return status;
 }
 
 /*!****************************************************************************
-* @brief  Прочитать значние
-* @retval enNoCharge, enCharge, enLimDown, enLimUp, enTransitionDown, enTransitionUp
-*/
+ * @brief  Прочитать значние
+ * @retval enNoCharge, enCharge, enLimDown, enLimUp, enTransitionDown, enTransitionUp
+ */
 void enSetNtic(uint16_t n){
 	enco.ntic = n;
 }

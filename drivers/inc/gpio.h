@@ -1,24 +1,24 @@
 ﻿/*!****************************************************************************
-* @file     gpio.h
-* @author   Storozhenko Roman - D_EL
-* @version  V1.0
-* @date     22.11.2016
-* @brief    gpio driver for stm32F4 microcontroller
-*/
+ * @file     gpio.h
+ * @author   Storozhenko Roman - D_EL
+ * @version  V1.0
+ * @date     22.11.2016
+ * @brief    gpio driver for stm32F4 microcontroller
+ */
 #ifndef GPIO_H
 #define GPIO_H
 
 /*!****************************************************************************
-* Include
-*/
+ * Include
+ */
 #include "stm32l4xx.h"
 //#include "bitbanding.h"
 #include "stdint.h"
 #include "board.h"
 
 /*!****************************************************************************
-* User define
-*/
+ * User define
+ */
 //MODERy
 #define GPIO_INPUT                          0x00
 #define GPIO_GP_OUT                         0x01
@@ -39,73 +39,54 @@
 #define EXTI_MODE_BOTH                      0x03
 
 /*!****************************************************************************
-* User typedef
-*/
-typedef enum{
-    pinm0   = 1 << 0,
-    pinm1   = 1 << 1,
-    pinm2   = 1 << 2,
-    pinm3   = 1 << 3,
-    pinm4   = 1 << 4,
-    pinm5   = 1 << 5,
-    pinm6   = 1 << 6,
-    pinm7   = 1 << 7,
-    pinm8   = 1 << 8,
-    pinm9   = 1 << 9,
-    pinm10  = 1 << 10,
-    pinm11  = 1 << 11,
-    pinm12  = 1 << 12,
-    pinm13  = 1 << 13,
-    pinm14  = 1 << 14,
-    pinm15  = 1 << 15,
-}gpioPin_type;
+ * User typedef
+ */
+typedef enum {
+	pinm0 = 1 << 0, pinm1 = 1 << 1, pinm2 = 1 << 2, pinm3 = 1 << 3, pinm4 = 1 << 4, pinm5 = 1 << 5, pinm6 = 1 << 6, pinm7 = 1 << 7, pinm8 = 1 << 8, pinm9 = 1
+			<< 9, pinm10 = 1 << 10, pinm11 = 1 << 11, pinm12 = 1 << 12, pinm13 = 1 << 13, pinm14 = 1 << 14, pinm15 = 1 << 15,
+} gpioPin_type;
 
-typedef enum{
-    analogMode,                         ///< 0
-    digitalInput,                       ///< 1
-    outPushPull,                        ///< 2
-    outOpenDrain,                       ///< 3
-    alternateFunctionPushPull,          ///< 4
-    alternateFunctionOpenDrain          ///< 5
-}gpioMode_type;
+typedef enum {
+	analogMode,                         ///< 0
+	digitalInput,                       ///< 1
+	outPushPull,                        ///< 2
+	outOpenDrain,                       ///< 3
+	alternateFunctionPushPull,          ///< 4
+	alternateFunctionOpenDrain          ///< 5
+} gpioMode_type;
 
-typedef enum{
-    speed2MHz,
-    speed10MHz,
-    speed50MHz,
-}gpioSpeed_type;
+typedef enum {
+	speed2MHz, speed10MHz, speed50MHz,
+} gpioSpeed_type;
 
-typedef enum{
-    pullDisable,
-    pullUp,
-    pullDown,
-}gpioPull_type;
+typedef enum {
+	pullDisable, pullUp, pullDown,
+} gpioPull_type;
 
-typedef struct{
-    GPIO_TypeDef    *p;                 ///< PORT
-    uint16_t        mask;               ///< MASK PIN
-    uint8_t         npin;               ///< NUMBER PIN
-    gpioMode_type   mode        :3;     ///< MODE
-    uint8_t         iniState    :1;     ///< Initial state
-    gpioPull_type   pull        :2;     ///< 0 - disable, 1 - pullUp, 2 - pullDown
-    uint8_t         nAF         :4;     ///< Number alternate function
-}pinMode_type;
+typedef struct {
+	GPIO_TypeDef *p;                 ///< PORT
+	uint16_t mask;               ///< MASK PIN
+	uint8_t npin;               ///< NUMBER PIN
+	gpioMode_type mode :3;     ///< MODE
+	uint8_t iniState :1;     ///< Initial state
+	gpioPull_type pull :2;     ///< 0 - disable, 1 - pullUp, 2 - pullDown
+	uint8_t nAF :4;     ///< Number alternate function
+} pinMode_type;
 
-typedef enum{
-/*0 */  GP_bMode,
-/*1 */  GP_bOnOff,
-/*2 */  GP_bView,
-/*3 */  GP_bNext,
-/*4 */  GP_bZero,
-/*5 */  GP_bUp,
-/*6 */  GP_bDown,
-/*7 */  GP_LED,
-GP_NOT_USED
-}GPnum_type;
+typedef enum {
+	/*0 */GP_bMode,
+	/*1 */GP_bOnOff,
+	/*2 */GP_bView,
+	/*3 */GP_bNext,
+	/*4 */GP_bZero,
+	/*5 */GP_bUp,
+	/*6 */GP_bDown,
+	/*7 */GP_LED, GP_NOT_USED
+} GPnum_type;
 
 /*!****************************************************************************
-* Macro functions
-*/
+ * Macro functions
+ */
 #define makepin(port, npin, mode, pull, iniState, nAF)    { port, (1<<npin), npin, mode, iniState, pull, nAF }
 
 #define _gppin_set(port, pinmask)       (port->BSRR = (pinmask))
@@ -116,7 +97,6 @@ GP_NOT_USED
 #define gppin_reset(n)                  _gppin_reset(pinsMode[n].p, pinsMode[n].mask)
 #define gppin_togle(n)                  _gppin_togle(pinsMode[n].p, pinsMode[n].mask)
 #define gppin_get(n)                    _gppin_get(pinsMode[n].p, pinsMode[n].mask)
-
 
 #define GPIO_TO_INT(GPIO)               (((uint32_t)(&(GPIO->CRL)) - GPIOA_BASE)>>10)
 #define __PIN_TO_EXTI_IRQn(PIN)                         (PIN == 0)? EXTI0_IRQn :\
@@ -143,13 +123,13 @@ GP_NOT_USED
 //example: EXTI_INIT(GPIOA, 9, EXTI_MODE_BOTH, 15);
 
 /*!****************************************************************************
-* Extern viriables
-*/
-extern pinMode_type   const pinsMode[];
+ * Extern viriables
+ */
+extern pinMode_type const pinsMode[];
 
 /*!****************************************************************************
-* Prototypes for the functions in gpio.c
-*/
+ * Prototypes for the functions in gpio.c
+ */
 void gppin_init(GPIO_TypeDef *port, uint8_t npin, gpioMode_type mode, gpioPull_type pull, uint8_t iniState, uint8_t nAF);
 void gpio_init(void);
 

@@ -1,43 +1,43 @@
 /*!****************************************************************************
-* @file    		debugCore.h
-* @author  		d_el
-* @version 		V1.0
-* @date    		15.01.2016, by d_el
-* @copyright 	GNU Public License
-*/
+ * @file    		debugCore.h
+ * @author  		d_el
+ * @version 		V1.0
+ * @date    		15.01.2016, by d_el
+ * @copyright 	GNU Public License
+ */
 #ifndef debugCore_H
 #define debugCore_H
 
 /*!****************************************************************************
-* User include
-*/
+ * User include
+ */
 #include "stm32l4xx.h"
 #include "stdint.h"
 #include "semihosting.h"
 
 /*!****************************************************************************
-* User define
-*/
+ * User define
+ */
 
 /*!****************************************************************************
-* User typedef
-*/
+ * User typedef
+ */
 
 /*!****************************************************************************
-* User enum
-*/
+ * User enum
+ */
 
 /*!****************************************************************************
-* Extern viriables
-*/
+ * Extern viriables
+ */
 
 /*!****************************************************************************
-* Macro functions
-*/
+ * Macro functions
+ */
 
 /*!****************************************************************************
-* Prototypes for the functions
-*/
+ * Prototypes for the functions
+ */
 uint32_t coreIsInDebugMode(void);
 
 #endif //debugCore_H

@@ -1,17 +1,17 @@
 ﻿/*!****************************************************************************
-* @file			bubbles.h
-* @author		Matthew Weathers + D_EL - Storozhenko Roman
-* @version      V1.0
-* @date			14.09.2004
-* @Up date:     19.08.2014
-* @copyright 	GNU Public License
-*/
+ * @file			bubbles.h
+ * @author		Matthew Weathers + D_EL - Storozhenko Roman
+ * @version      V1.0
+ * @date			14.09.2004
+ * @Up date:     19.08.2014
+ * @copyright 	GNU Public License
+ */
 #ifndef BUBBLES_H
 #define BUBBLES_H
 
 /*!****************************************************************************
-* Include
-*/
+ * Include
+ */
 #include "stdlib.h"
 #include "graphics.h"
 #include "OSinit.h"
@@ -20,36 +20,30 @@
 #include "beep.h"
 
 /*!****************************************************************************
-* User define
-*/
+ * User define
+ */
 #define xSize           160
 #define ySize           128
 #define CountOfBalls    5
 
 /*!****************************************************************************
-* Typedef
-*/
-typedef struct{
-    int16_t     color;    
-    int16_t     radius; 
-    int16_t     speedx;
-    int16_t     speedy;
-    int16_t     old_xcenter;
-    int16_t     old_ycenter;
-    int16_t     new_xcenter;
-    int16_t     new_ycenter;
-}ball_type;
+ * Typedef
+ */
+typedef struct {
+	int16_t color;
+	int16_t radius;
+	int16_t speedx;
+	int16_t speedy;
+	int16_t old_xcenter;
+	int16_t old_ycenter;
+	int16_t new_xcenter;
+	int16_t new_ycenter;
+} ball_type;
 
 /*!****************************************************************************
-* Function prototype
-*/
-void nextColor(void);
-void paint_ball(int16_t x, int16_t y, int16_t r, uint16_t color);
-void initialize(void);
-void moveball(void);
-void physics(void);
-void play(void);
-void Bubbles(void *pvParameters);
+ * Function prototype
+ */
+void bubblesTSK(void *pPrm);
 
 #endif //BUBBLES_H
 /*************** GNU GPL ************** END OF FILE ********* D_EL ***********/

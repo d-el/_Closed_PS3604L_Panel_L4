@@ -1,18 +1,18 @@
 ﻿/**
-*******************************************************************************
-* @file    uartTSK.h 
-* @author  D_EL
-* @version V1.0.0
-* @date    2015-08-10
-* @brief
-* @copyright GNU Public License
-*/
+ *******************************************************************************
+ * @file    uartTSK.h 
+ * @author  D_EL
+ * @version V1.0.0
+ * @date    2015-08-10
+ * @brief
+ * @copyright GNU Public License
+ */
 #ifndef uartTSK_H
 #define uartTSK_H
 
 /*!****************************************************************************
-* Include
-*/
+ * Include
+ */
 #include "string.h"
 #include "FreeRTOS.h"
 #include "task.h"
@@ -26,8 +26,8 @@
 #include "uart.h"
 
 /*!****************************************************************************
-* User define
-*/
+ * User define
+ */
 #define PieceBufRx          (32)
 #define queueCommandLen     (16)
 #define maxWaitAnswer_ms    (100)
@@ -35,42 +35,40 @@
 #define UART_TSK_PERIOD		15	//[ms]
 
 /*!****************************************************************************
-* User typedef
-*/
-typedef enum{
-    uartConnect,
-    uartNoConnect,
-	uartUndef,
-}uartTskState_type;
+ * User typedef
+ */
+typedef enum {
+	uartConnect, uartNoConnect, uartUndef,
+} uartTskState_type;
 
-typedef struct{
-    volatile uint32_t            normAnswer;
-    volatile uint32_t            noAnswer;
-    volatile uint32_t            errorAnswer;
-    volatile uint32_t            queueLen;
-    volatile uartTskState_type   state;
-}uartTsk_type;
+typedef struct {
+	volatile uint32_t normAnswer;
+	volatile uint32_t noAnswer;
+	volatile uint32_t errorAnswer;
+	volatile uint32_t queueLen;
+	volatile uartTskState_type state;
+} uartTsk_type;
 
 /*!****************************************************************************
-* User enum
-*/
+ * User enum
+ */
 
 /*!****************************************************************************
-* Extern viriables
-*/
-extern uartTsk_type    uartTsk;
+ * Extern viriables
+ */
+extern uartTsk_type uartTsk;
 
 /*!****************************************************************************
-* Macro functions
-*/
+ * Macro functions
+ */
 
 /*!****************************************************************************
-* Macro functions
-*/
+ * Macro functions
+ */
 
 /******************************************************************************
-* Prototypes for the functions
-*/
+ * Prototypes for the functions
+ */
 void uartTSK(void *pPrm);
 uint8_t waitForTf(void);
 uint8_t sendCommand(request_type command);

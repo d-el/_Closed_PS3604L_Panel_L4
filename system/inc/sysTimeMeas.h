@@ -28,27 +28,20 @@
 /*!****************************************************************************
  * Typedef
  */
-typedef enum{
-	sysTimeBs = 0,
-	sysTime1,
-	sysTime2,
-	sysTime3,
-	sysTime4,
-	sysTime5,
-	sysTime6,
-	sysTime7,
-}sysTimeNumber_type;
+typedef enum {
+	sysTimeBs = 0, sysTime1, sysTime2, sysTime3, sysTime4, sysTime5, sysTime6, sysTime7,
+} sysTimeNumber_type;
 
-typedef struct{
-	uint32_t	start[NUMBER_MEASURES];
-	uint32_t	stop[NUMBER_MEASURES];
-	uint32_t	timDelta[NUMBER_MEASURES];
-}sysTimeStruct_type;
+typedef struct {
+	uint32_t start[NUMBER_MEASURES];
+	uint32_t stop[NUMBER_MEASURES];
+	uint32_t timDelta[NUMBER_MEASURES];
+} sysTimeStruct_type;
 
 /*!****************************************************************************
  * Exported variables
  */
-extern sysTimeStruct_type	sysTimeStruct;
+extern sysTimeStruct_type sysTimeStruct;
 
 /*!****************************************************************************
  * Macro functions

@@ -15,8 +15,8 @@
 /*!****************************************************************************
  * Memory
  */
-uint8_t 		eep_tempBff[17];
-const uint16_t 	eepdelay = 5000;
+uint8_t eep_tempBff[17];
+const uint16_t eepdelay = 5000;
 
 /*!****************************************************************************
  * @brief    	Write data from I2C
@@ -54,49 +54,49 @@ eepStatus_type eep_i2cRead(void *dst, uint16_t len, uint8_t slaveAdr){
  * @retval		status operation
  */
 eepStatus_type eep_write(uint16_t dst, void *src, uint16_t len){
-	uint8_t 		*pData;
+	uint8_t *pData;
 	eepAddress_type eepAdr;
-	uint8_t 		adrInBlock;
-	uint16_t 		canWrite;
-	eepStatus_type	status;
-
+	uint8_t adrInBlock;
+	uint16_t canWrite;
+	eepStatus_type status;
+	
 	if(len == 0){
 		return eepOtherError;
 	}
 	pData = (uint8_t*) src;
 	eepAdr.bit.controlCode = CONTROLCODE;
 	eepAdr.bit.rw = eepWrite;
-
+	
 	while(len > 0){
 		eepAdr.bit.blockSelect = dst / BYTESINPAGE;
 		adrInBlock = dst % BYTESINPAGE;
-
+		
 		canWrite = (BYTESINPAGE - adrInBlock);
 		if(canWrite >= BYTESINBLOCK){
 			canWrite = BYTESINBLOCK;
 		}
-
+		
 		if(len <= canWrite){
 			eep_tempBff[0] = adrInBlock;
 			memcpy(&eep_tempBff[1], pData, len);
-
+			
 			status = eep_i2cWrite(eep_tempBff, len + 1, eepAdr.adr);
 			if(status != eepOk){
 				return eepI2cError;
 			}
 			delay_us(eepdelay);
-
+			
 			len -= len;
 		}else{
 			eep_tempBff[0] = adrInBlock;
 			memcpy(&eep_tempBff[1], pData, canWrite);
-
+			
 			status = eep_i2cWrite(eep_tempBff, canWrite + 1, eepAdr.adr);
 			if(status != eepOk){
 				return eepI2cError;
 			}
 			delay_us(eepdelay);
-
+			
 			len -= canWrite;
 			dst += canWrite;
 			pData += canWrite;
@@ -114,9 +114,9 @@ eepStatus_type eep_write(uint16_t dst, void *src, uint16_t len){
  */
 eepStatus_type eep_read(void *dst, uint16_t src, uint16_t len){
 	eepAddress_type eepAdr;
-	uint8_t 		adrInBlock;
-	eepStatus_type	status;
-
+	uint8_t adrInBlock;
+	eepStatus_type status;
+	
 	if(len == 0){
 		return eepOtherError;
 	}
@@ -124,12 +124,12 @@ eepStatus_type eep_read(void *dst, uint16_t src, uint16_t len){
 	eepAdr.bit.blockSelect = src / BYTESINPAGE;
 	eepAdr.bit.rw = eepWrite;
 	adrInBlock = src % BYTESINPAGE;
-
+	
 	status = eep_i2cWrite(&adrInBlock, 1, eepAdr.adr);
 	if(status != eepOk){
 		return eepI2cError;
 	}
-
+	
 	eepAdr.bit.rw = eepRead;
 	status = eep_i2cRead(dst, len, eepAdr.adr);
 	if(status != eepOk){

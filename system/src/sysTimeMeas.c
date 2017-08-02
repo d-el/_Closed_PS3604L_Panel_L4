@@ -15,7 +15,7 @@
 /*!****************************************************************************
  * MEMORY
  */
-sysTimeStruct_type	sysTimeStruct;
+sysTimeStruct_type sysTimeStruct;
 
 /*!****************************************************************************
  * @brief		Enable DWT cycle counter

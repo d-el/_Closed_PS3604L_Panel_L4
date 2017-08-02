@@ -8,9 +8,9 @@
 #ifndef __SIMIHOSTTING_IMPL
 #define __SIMIHOSTTING_IMPL
 
-/********************************************************************************************************//**
- * Semihosting functions prototype
-************************************************************************************************************/
+/*!****************************************************************************
+ * Function declaration
+ */
 extern int SH_DoCommand(int n32In_R0, int n32In_R1, int *pn32Out_R0);
 void SH_SendChar(int ch);
 void SH_SendString(const char *str);

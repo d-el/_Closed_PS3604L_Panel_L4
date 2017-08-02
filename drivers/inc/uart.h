@@ -1,19 +1,19 @@
 ﻿/*!****************************************************************************
-* @file    uart.h
-* @author  Storozhenko Roman - D_EL
-* @version V1.4
-* @brief   driver for uart of STM32L4 MCUs
-* @date    09.01.2016
-* @history 27-02-2015
-* @history 26.03.2016 - remade for new gpio driver
-* @history 24.09.2016 - rx isr, uart write
-*/
+ * @file    uart.h
+ * @author  Storozhenko Roman - D_EL
+ * @version V1.4
+ * @brief   driver for uart of STM32L4 MCUs
+ * @date    09.01.2016
+ * @history 27-02-2015
+ * @history 26.03.2016 - remade for new gpio driver
+ * @history 24.09.2016 - rx isr, uart write
+ */
 #ifndef UART_H
 #define UART_H
 
 /*!****************************************************************************
-* Include
-*/
+ * Include
+ */
 #include "stm32l4xx.h"
 #include "gpio.h"
 #include "stdint.h"
@@ -21,8 +21,8 @@
 #include "OSinit.h"
 
 /*!****************************************************************************
-* User define
-*/
+ * User define
+ */
 //UART1
 #define     UART1_USE                   (0)
 #define     UART1_Tx_HOOK               (0)
@@ -61,84 +61,75 @@
 #define     UART3_RX_IDLE_LINE_MODE     (1)
 
 /*!****************************************************************************
-* User enum
-*/
+ * User enum
+ */
 
 /*!****************************************************************************
-* User typedef
-*/
-typedef enum{
-    BR9600,
-    BR38400,
-    BR115200
-}uartBaudRate_type;
+ * User typedef
+ */
+typedef enum {
+	BR9600, BR38400, BR115200
+} uartBaudRate_type;
 
-typedef enum{  
-    uartTxFree,
-    uartTxRun,
-    uartTxSuccess,
-    uartTxErr
-}uartTxState_type;
+typedef enum {
+	uartTxFree, uartTxRun, uartTxSuccess, uartTxErr
+} uartTxState_type;
 
-typedef enum{  
-    uartRxFree,
-    uartRxRun,
-    uartRxSuccess,
-    uartRxStop,
-    uartRxErr
-}uartRxState_type;
+typedef enum {
+	uartRxFree, uartRxRun, uartRxSuccess, uartRxStop, uartRxErr
+} uartRxState_type;
 
-typedef struct{
-    USART_TypeDef           	*pUart;
-    uint8_t                 	*pTxBff;
-    uint8_t                 	*pRxBff;
-    DMA_Channel_TypeDef     	*pUartTxDmaCh;
-    DMA_Channel_TypeDef     	*pUartRxDmaCh;
-    volatile uartTxState_type 	txState     	:8;
-    volatile uartRxState_type  	rxState     	:8;
-    uartTxState_type       	    baudRate    	:4;
-    uint8_t                 	halfDuplex  	:1;
-    uint8_t						rxIdleLineMode	:1;
-    volatile uint16_t         	txCnt;
-    volatile uint16_t          	rxCnt;
-    volatile uint16_t           errorRxCnt;
-}uart_type;
+typedef struct {
+	USART_TypeDef *pUart;
+	uint8_t *pTxBff;
+	uint8_t *pRxBff;
+	DMA_Channel_TypeDef *pUartTxDmaCh;
+	DMA_Channel_TypeDef *pUartRxDmaCh;
+	volatile uartTxState_type txState :8;
+	volatile uartRxState_type rxState :8;
+	uartTxState_type baudRate :4;
+	uint8_t halfDuplex :1;
+	uint8_t rxIdleLineMode :1;
+	volatile uint16_t txCnt;
+	volatile uint16_t rxCnt;
+	volatile uint16_t errorRxCnt;
+} uart_type;
 
 /*!****************************************************************************
-* Extern viriables
-*/
+ * Extern viriables
+ */
 extern uint32_t usartBaudRate[3];
 #if (UART1_USE == 1)
-extern uart_type            *uart1;
+extern uart_type *uart1;
 #endif //UART1_USE
 
 #if (UART2_USE == 1)
-extern uart_type            *uart2;
+extern uart_type *uart2;
 #endif //UART2_USE
 
 #if (UART3_USE == 1)
-extern uart_type            *uart3;
+extern uart_type *uart3;
 #endif //UART3_USE
 
 /*!****************************************************************************
-* Macro functions
-*/
+ * Macro functions
+ */
 #define uartGetRemainTx(uartx)      (uartx->pUartTxDmaCh->CNDTR)
 #define uartGetRemainRx(uartx)      (uartx->pUartRxDmaCh->CNDTR)
 
 __attribute__((always_inline)) __STATIC_INLINE
 void uart2RxHook(void){
-    BaseType_t  xHigherPriorityTaskWoken;
-    xHigherPriorityTaskWoken = pdFALSE;
-    xSemaphoreGiveFromISR(uart2RxSem, &xHigherPriorityTaskWoken);
-    if(xHigherPriorityTaskWoken != pdFALSE){
-        portEND_SWITCHING_ISR(xHigherPriorityTaskWoken);
-    }
+	BaseType_t xHigherPriorityTaskWoken;
+	xHigherPriorityTaskWoken = pdFALSE;
+	xSemaphoreGiveFromISR(uart2RxSem, &xHigherPriorityTaskWoken);
+	if(xHigherPriorityTaskWoken != pdFALSE){
+		portEND_SWITCHING_ISR(xHigherPriorityTaskWoken);
+	}
 }
 
 /*!****************************************************************************
-* Prototypes for the functions
-*/
+ * Prototypes for the functions
+ */
 void uart_init(uart_type *uartx, uartBaudRate_type baudRate);
 void uart_deinit(uart_type *uartx);
 void uart_setBaud(uart_type *uartx, uartBaudRate_type baudRate);

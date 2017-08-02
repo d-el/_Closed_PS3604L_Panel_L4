@@ -1,17 +1,17 @@
 ﻿/*!****************************************************************************
-* @file    settingTSK.h
-* @author  d_el
-* @version V1.0
-* @date    01.01.2016, by d_el
-* @brief   --
-* @copyright GNU Public License
-*/
+ * @file    settingTSK.h
+ * @author  d_el
+ * @version V1.0
+ * @date    01.01.2016, by d_el
+ * @brief   --
+ * @copyright GNU Public License
+ */
 #ifndef settingTSK_H
 #define settingTSK_H
 
 /*!****************************************************************************
-* Include
-*/
+ * Include
+ */
 #include "FreeRTOS.h"
 #include "OSinit.h"
 #include "pstypes.h"
@@ -21,32 +21,32 @@
 #include "menuSystem.h"
 
 /*!****************************************************************************
-* User define
-*/
+ * User define
+ */
 
 /*!****************************************************************************
-* User enum
-*/
+ * User enum
+ */
 
 /*!****************************************************************************
-* User typedef
-*/
-typedef struct{
-    uint16_t        u;
-    uint16_t        i;
-}settingSct_type;
+ * User typedef
+ */
+typedef struct {
+	uint16_t u;
+	uint16_t i;
+} settingSct_type;
 
 /*!****************************************************************************
-* Extern viriables
-*/
+ * Extern viriables
+ */
 
 /*!****************************************************************************
-* Macro functions
-*/
+ * Macro functions
+ */
 
 /*!****************************************************************************
-* Prototypes for the functions
-*/
+ * Prototypes for the functions
+ */
 void settingTSK(void *pPrm);
 uint32_t PrepareU(const menuItem_type *item);
 uint32_t PrepareI(const menuItem_type *item);

@@ -1,10 +1,10 @@
 ﻿/*!****************************************************************************
  * @file		menuTree.h
- * @author		Storozhenko Roman - D_EL
+ * @author		d_el - Storozhenko Roman
  * @version		V1.0
  * @date		10.02.2016
  * @copyright	GNU Lesser General Public License v3
- * @brief
+ * @brief		Parameters table
  */
 
 /*		  name 			,label		,units	,prmHandle			,chmod				,pfPrm	,pfChanges	,pfSelect	,pfUnselect	,pfPeriod	,previous	,next		,parent		,child	*/
@@ -51,4 +51,4 @@ MENU_ITEM(rtc			,"RTC"		,""		,NULL				,chmodMenuAlways	,0		,NULL		,NULL		,NULL		
 MENU_ITEM(brightness	,"Bright"	,"%"	,&prmh[Nbrightness]	,chmodMenuAlways	,0		,setBright	,NULL		,NULL		,NULL		,rtc		,brightness	,brightness	,brightness)
 
 
-/******************* (C) COPYRIGHT ***************** END OF FILE ********* D_EL *****/
+/*************** LGPL ************** END OF FILE *********** D_EL ************/

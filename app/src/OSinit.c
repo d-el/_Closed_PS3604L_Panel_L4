@@ -1,64 +1,52 @@
 ﻿/*!****************************************************************************
-* @file			OSinit.c
-* @author		D_EL - Storozhenko Roman
-* @version      V1.0
-*/
+ * @file		OSinit.c
+ * @author		d_el - Storozhenko Roman
+ * @version		V1.0
+ * @copyright	GNU Lesser General Public License v3
+ * @brief		Create semaphore, mutex, nitialization operational system
+ */
 
 /*!****************************************************************************
-* Include
-*/
+ * Include
+ */
 #include "OSinit.h"
 
 /*!****************************************************************************
-* TaskHandle
-*/
-xTaskHandle         windowTskHandle;
+ * TaskHandle
+ */
+TaskHandle_t windowTskHandle;
 
 /******************************************************************************
-* Semaphore
-*/
-xSemaphoreHandle    uart2RxSem;
+ * Semaphore
+ */
+SemaphoreHandle_t uart2RxSem;
 
 /*!****************************************************************************
-* @brief Init operating system
-*/
+ * @brief Init operating system
+ */
 void OSinit(void){
-    BaseType_t Result = pdTRUE;
+	BaseType_t Result = pdTRUE;
 
-    //Создаём семафор
-    vSemaphoreCreateBinary(uart2RxSem);
-    xSemaphoreTake(uart2RxSem, portMAX_DELAY);
+	//Create semaphore
+	vSemaphoreCreateBinary(uart2RxSem);
+	xSemaphoreTake(uart2RxSem, portMAX_DELAY);
 
-    //selWindow(settingWindow);
+	Result &= xTaskCreate(systemTSK, "systemTSK", SYSTEM_TSK_SZ_STACK, NULL, SYSTEM_TSK_PRIO, NULL);
+	Result &= xTaskCreate(uartTSK, "uartTSK", UART_TSK_SZ_STACK, NULL, UART_TSK_PRIO, NULL);
 
-    //Создаём задачи перед запуском ядра
-    for(uint32_t cnt = 0; (cnt <= KEY_SAMPLES)&&(keyProc() == 0); cnt++){
-    }
-
-
-
-	//Result &= xTaskCreate(cube3dTSK,      "cube3dTSK",      CUBE_TSK_SZ_STACK,      NULL, CUBE_TSK_PRIO,    NULL);
-
-    if(keyState(kOnOff)){
-    	selWindow(settingWindow);
-    }else{
-    	selWindow(baseWindow);
-    }
-    Result &= xTaskCreate(systemTSK,    "systemTSK",    SYSTEM_TSK_SZ_STACK,    NULL, SYSTEM_TSK_PRIO,  NULL);
-    Result &= xTaskCreate(uartTSK,      "uartTSK",      UART_TSK_SZ_STACK,      NULL, UART_TSK_PRIO,    NULL);
-
-    if(Result == pdTRUE){
-    }
-    else{
+	if(Result == pdTRUE){
+	}else{
 		while(1){
 			LED_ON();
 			delay_ms(100);
 			LED_OFF();
 			delay_ms(900);
 		}
-    }
+	}
 
-    vTaskStartScheduler();
+	selWindow(startupWindow);
+
+	vTaskStartScheduler();
 }
 
-/****************** (C) COPYRIGHT **************** END OF FILE ***************/
+/*************** LGPL ************** END OF FILE *********** D_EL ************/

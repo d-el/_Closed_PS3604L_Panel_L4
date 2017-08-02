@@ -1,10 +1,11 @@
 ﻿/*!****************************************************************************
-* @file    parametres
-* @author  Storozhenko Roman - D_EL
-* @version V1.0
-* @date    08.02.2017
-* @brief
-*/
+ * @file		parametres.h
+ * @author		d_el - Storozhenko Roman
+ * @version		V1.0
+ * @date		08.02.2017
+ * @copyright	GNU Lesser General Public License v3
+ * @brief		Parameters table
+ */
 
 /* RTC */
 parametres(utcTime		,""	,unixTime					,unixDateFrmt	,chmodNone		,0		,0		,0			,0		,0		,0	,prmNotSave)
@@ -18,21 +19,21 @@ parametres(sec			,""	,timeStrct.tm_sec			,s32Frmt		,chmodAlways	,0		,0		,59			,1
 
 //Base Task 0
 parametres(bsSet0u		,""	,bs.set[0].u				,u16Frmt		,chmodAlways	,0		,0		,36.000		,0.010	,1.000	,3	,prmEeprom)
-parametres(bsSet0i		,""	,bs.set[0].i				,u16Frmt		,chmodAlways	,0		,0		,4.000		,0.001	,0.500	,3	,prmEeprom)
+parametres(bsSet0i		,""	,bs.set[0].i				,u16Frmt		,chmodAlways	,0		,0		,4.000		,0.001	,0.100	,3	,prmEeprom)
 parametres(bsSet0m		,""	,bs.set[0].mode				,u8Frmt			,chmodAlways	,0		,0		,2			,1		,1		,0	,prmEeprom)
 //Base Task 1
-parametres(bsSet1u		,""	,bs.set[1].u				,u16Frmt		,chmodAlways	,0		,0		,36.000		,0.010	,1.000	,3	,prmEeprom)
-parametres(bsSet1i		,""	,bs.set[1].i				,u16Frmt		,chmodAlways	,0		,0		,4.000		,0.001	,0.500	,3	,prmEeprom)
+parametres(bsSet1u		,""	,bs.set[1].u				,u16Frmt		,chmodAlways	,0		,0		,36.000		,0.010	,4.200	,3	,prmEeprom)
+parametres(bsSet1i		,""	,bs.set[1].i				,u16Frmt		,chmodAlways	,0		,0		,4.000		,0.001	,0.100	,3	,prmEeprom)
 parametres(bsSet1m		,""	,bs.set[1].mode				,u8Frmt			,chmodAlways	,0		,0		,2			,1		,1		,0	,prmEeprom)
 //Base Task 2
-parametres(bsSet2u		,""	,bs.set[2].u				,u16Frmt		,chmodAlways	,0		,0		,36.000		,0.010	,1.000	,3	,prmEeprom)
-parametres(bsSet2i		,""	,bs.set[2].i				,u16Frmt		,chmodAlways	,0		,0		,4.000		,0.001	,0.500	,3	,prmEeprom)
+parametres(bsSet2u		,""	,bs.set[2].u				,u16Frmt		,chmodAlways	,0		,0		,36.000		,0.010	,12.000	,3	,prmEeprom)
+parametres(bsSet2i		,""	,bs.set[2].i				,u16Frmt		,chmodAlways	,0		,0		,4.000		,0.001	,0.100	,3	,prmEeprom)
 parametres(bsSet2m		,""	,bs.set[2].mode				,u8Frmt			,chmodAlways	,0		,0		,2			,1		,1		,0	,prmEeprom)
 
 //Charger Task
-parametres(chu			,""	,ch.u						,u16Frmt		,chmodAlways	,0		,0		,36.000		,0.010	,1.000	,3	,prmEeprom)
-parametres(chi			,""	,ch.i						,u16Frmt		,chmodAlways	,0		,0		,4.000		,0.001	,0.500	,3	,prmEeprom)
-parametres(cht			,""	,ch.t						,u16Frmt		,chmodAlways	,0		,0		,4.000		,0.001	,0.500	,3	,prmEeprom)
+parametres(chu			,""	,ch.u						,u16Frmt		,chmodAlways	,0		,0		,36.000		,0.010	,4.200	,3	,prmEeprom)
+parametres(chi			,""	,ch.i						,u16Frmt		,chmodAlways	,0		,0		,4.000		,0.001	,0.100	,3	,prmEeprom)
+parametres(cht			,""	,ch.t						,u16Frmt		,chmodAlways	,0		,0		,4.000		,0.001	,5		,0	,prmEeprom)
 parametres(chm			,""	,ch.mode					,u8Frmt			,chmodAlways	,0		,0		,1			,1		,1		,0	,prmEeprom)
 
 //Regulator task
@@ -52,10 +53,4 @@ parametres(meas_adci	,""	,fp.tf.meas.adci			,u16Frmt		,chmodNone		,0		,0		,0			,
 //Panel settings
 parametres(brightness	,""	,fp.fpSet.lcdLight			,u16Frmt		,chmodAlways	,60.0	,10.0	,100.0		,0.1	,10.0	,1	,prmEeprom)
 
-//Debug
-parametres(task_u		,""	,fp.tf.task.u				,floatFrmt		,chmodAlways	,0		,0		,36.000		,1		,1		,0	,prmNotSave)
-
-
-
-
-/******************* (C) COPYRIGHT ***************** END OF FILE ********* D_EL *****/
+/*************** LGPL ************** END OF FILE *********** D_EL ************/

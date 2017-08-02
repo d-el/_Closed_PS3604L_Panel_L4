@@ -39,19 +39,19 @@ extern uint32_t __get_MSP(void);
  * @return	previous heap end value
  */
 __attribute__((weak))
-caddr_t _sbrk(intptr_t incr){
-	extern size_t 	_ebss; 							/// Defined by the linker
-	static caddr_t 	heapEnd =  (caddr_t)&_ebss;
-	caddr_t			prevHeapEnd = heapEnd;
-	caddr_t			stack = (caddr_t)__get_MSP();
-
+   caddr_t _sbrk(intptr_t incr){
+	extern size_t _ebss; 							/// Defined by the linker
+	static caddr_t heapEnd = (caddr_t) &_ebss;
+	caddr_t prevHeapEnd = heapEnd;
+	caddr_t stack = (caddr_t) __get_MSP();
+	
 	if(heapEnd + incr >= stack){
-	errno = ENOMEM;
+		errno = ENOMEM;
 		abort();
 	}
-
+	
 	heapEnd += incr;
-	return (caddr_t)prevHeapEnd;
+	return (caddr_t) prevHeapEnd;
 }
 
 /*!****************************************************************************
@@ -70,7 +70,7 @@ void _exit(int code __attribute__((unused))){
  */
 __attribute__((weak))
 void _init(void){
-
+	
 }
 
 /*!****************************************************************************
@@ -78,9 +78,8 @@ void _init(void){
  */
 __attribute__((weak))
 void _fini(void){
-
+	
 }
-
 
 /*!****************************************************************************
  * Iterate over all the init routines
@@ -89,13 +88,13 @@ __attribute__((weak))
 void __libc_init_array(void){
 	size_t count;
 	size_t i;
-
+	
 	count = __preinit_array_end - __preinit_array_start;
 	for(i = 0; i < count; i++)
 		__preinit_array_start[i]();
-
+	
 	_init();
-
+	
 	count = __init_array_end - __init_array_start;
 	for(i = 0; i < count; i++)
 		__init_array_start[i]();
@@ -108,11 +107,11 @@ __attribute__((weak))
 void __libc_fini_array(void){
 	size_t count;
 	size_t i;
-
+	
 	count = __fini_array_end - __fini_array_start;
 	for(i = count; i > 0; i--)
 		__fini_array_start[i - 1]();
-
+	
 	_fini();
 }
 

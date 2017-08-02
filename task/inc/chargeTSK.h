@@ -1,10 +1,10 @@
 ﻿/******************************************************************************
-* @file			charge.h
-* @author		D_EL - Storozhenko Roman
-* @version      V1.0
-* @date			
-* @copyright GNU Public License
-*/
+ * @file			charge.h
+ * @author		D_EL - Storozhenko Roman
+ * @version      V1.0
+ * @date			
+ * @copyright GNU Public License
+ */
 #ifndef CHARGE_H
 #define CHARGE_H
 
@@ -25,47 +25,43 @@
 #include "beep.h"
 
 /******************************************************************************
-* User define
-*/
+ * User define
+ */
 #define CH_TSK_PERIOD   10      //[ms]
 
 /******************************************************************************
-* User typedef
-*/
-typedef struct{
-    uint16_t    u;		//[mV]
-    uint16_t    i;		//[mA]
-    uint16_t    t;		//[minute]
-    uint16_t    mode;
-}charge_type;
+ * User typedef
+ */
+typedef struct {
+	uint16_t u;		//[mV]
+	uint16_t i;		//[mA]
+	uint16_t t;		//[minute]
+	uint16_t mode;
+} charge_type;
 
 /******************************************************************************
-* User enum
-*/
-enum{
-    C_VOLT = 0,
-    C_CURR = 1,
-    C_TIME = 2,
-    C_MODE = 3,
+ * User enum
+ */
+enum {
+	C_VOLT = 0, C_CURR = 1, C_TIME = 2, C_MODE = 3,
 };
 
-enum{
-    ch_modeTime       = 0,
-    ch_modeCurrent    = 1,
+enum {
+	ch_modeTime = 0, ch_modeCurrent = 1,
 };
 
 /******************************************************************************
-* Extern viriables
-*/
+ * Extern viriables
+ */
 extern charge_type ch;
 
 /******************************************************************************
-* Macro functions
-*/
+ * Macro functions
+ */
 
 /******************************************************************************
-* Prototypes for the functions
-*/
+ * Prototypes for the functions
+ */
 void chargeTSK(void *pPrm);
 
 #endif //CHARGE_H

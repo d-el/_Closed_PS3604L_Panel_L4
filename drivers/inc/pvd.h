@@ -1,17 +1,17 @@
 ﻿/*!****************************************************************************
-* @file    pvd.h
-* @author  d_el
-* @version V1.0
-* @date    01.08.2016, Storozhenko Roman
-* @brief   --
-* @copyright GNU Public License
-*/
+ * @file    pvd.h
+ * @author  d_el
+ * @version V1.0
+ * @date    01.08.2016, Storozhenko Roman
+ * @brief   --
+ * @copyright GNU Public License
+ */
 #ifndef pvd_H
 #define pvd_H
 
 /*!****************************************************************************
-* Include
-*/
+ * Include
+ */
 #include "stm32l4xx.h"
 #include "ledpwm.h"
 #include "spfd54124b.h"
@@ -21,28 +21,28 @@
 #include "stdlib.h"
 
 /*!****************************************************************************
-* User define
-*/
+ * User define
+ */
 
 /*!****************************************************************************
-* User enum
-*/
+ * User enum
+ */
 
 /*!****************************************************************************
-* User typedef
-*/
+ * User typedef
+ */
 
 /*!****************************************************************************
-* Extern viriables
-*/
+ * Extern viriables
+ */
 
 /*!****************************************************************************
-* Macro functions
-*/
+ * Macro functions
+ */
 
 /*!****************************************************************************
-* Prototypes for the functions
-*/
+ * Prototypes for the functions
+ */
 void pvd_init(void);
 void pvd_disable(void);
 

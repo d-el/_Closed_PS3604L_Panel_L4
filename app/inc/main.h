@@ -1,16 +1,15 @@
 ﻿/*!****************************************************************************
-* @file    main.h
-* @author  Storozhenko Roman - D_EL
-* @version V1.0.0
-* @date    10-03-2013
-* @copyright GNU Public License
-*/
+ * @file		main.h
+ * @author		Storozhenko Roman - D_EL
+ * @date		10.03.2013
+ * @copyright	GNU Lesser General Public License v3
+ */
 #ifndef MAIN_H
 #define MAIN_H
 
 /*!****************************************************************************
-* Include
-*/
+ * Include
+ */
 #include "drivers.h"
 #include "prmSystem.h"
 #include "menuSystem.h"
@@ -19,13 +18,13 @@
 #include "version.h"
 
 /*!****************************************************************************
-* User define
-*/
+ * Define
+ */
 
 /*!****************************************************************************
-* Prototypes for the functions
-*/
+ * Function declaration
+ */
 int main(void);
 
 #endif  //MAIN_H
-/*************** GNU GPL ************** END OF FILE ********* D_EL ***********/
+/*************** LGPL ************** END OF FILE *********** D_EL ************/

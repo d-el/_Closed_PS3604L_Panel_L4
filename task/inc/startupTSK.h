@@ -1,33 +1,24 @@
-﻿/*!****************************************************************************
- * @file		drivers.h
+/*!****************************************************************************
+ * @file		startupTSK.h
  * @author		d_el - Storozhenko Roman
  * @version		V1.0
- * @date		05-07-2013
+ * @date		02.08.2017
  * @copyright	GNU Lesser General Public License v3
- * @brief		Driver display on controller spfd54124b
+ * @brief		This task create start screen
  */
-
-#ifndef DRIVERS_H
-#define DRIVERS_H
+#ifndef startupTSK_H
+#define startupTSK_H
 
 /*!****************************************************************************
  * Include
  */
-#include "IQmathLib.h"
-#include "pvd.h"
-#include "systemTSK.h"
-#include "baseTSK.h"
-#include "storage.h"
+#include "display.h"
 #include "beep.h"
-#include "spfd54124b.h"
-#include "uart.h"
-#include "i2c.h"
-#include "enco.h"
-#include "clock.h"
-#include "ledpwm.h"
-#include "rtc.h"
-#include "delay.h"
-#include "sysTimeMeas.h"
+#include "ui.h"
+#include "version.h"
+#include "systemTSK.h"
+#include "FreeRTOS.h"
+#include "task.h"
 
 /*!****************************************************************************
  * Define
@@ -38,8 +29,13 @@
  */
 
 /*!****************************************************************************
+ * Typedef
+ */
+
+/*!****************************************************************************
  * Exported variables
  */
+extern uint32_t startCounter;
 
 /*!****************************************************************************
  * Macro functions
@@ -48,8 +44,7 @@
 /*!****************************************************************************
  * Function declaration
  */
-void hardInit(void);
-void shutdown(void);
+void startupTSK(void *pPrm);
 
-#endif //DRIVERS_H
+#endif //startupTSK_H
 /*************** LGPL ************** END OF FILE *********** D_EL ************/

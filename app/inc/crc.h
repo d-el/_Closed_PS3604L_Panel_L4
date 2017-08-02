@@ -1,22 +1,22 @@
 ﻿/**
-*******************************************************************************
-* @file    crc.h
-* @author  Storozhenko Roman - D_EL
-* @version V1.0.0
-* @date    23.06.2015
-* @brief
-*/
+ *******************************************************************************
+ * @file    crc.h
+ * @author  Storozhenko Roman - D_EL
+ * @version V1.0.0
+ * @date    23.06.2015
+ * @brief
+ */
 #ifndef crc_H
 #define crc_H
 
 /*!****************************************************************************
-* Include
-*/
+ * Include
+ */
 #include "stdint.h"
 
 /******************************************************************************
-* Prototypes for the functions
-*/
+ * Prototypes for the functions
+ */
 uint16_t GetCrcPO(void);
 uint16_t GetCrc(void *Bff, uint32_t szBff);
 uint16_t GetCrc3Word(void *Bff);
