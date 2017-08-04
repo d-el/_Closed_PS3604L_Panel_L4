@@ -65,11 +65,11 @@ uint8_t waitForTf(void){
  * @brief
  */
 void uartTSK(void *pPrm){
-	portTickType xLastWakeTime = xTaskGetTickCount();
-	BaseType_t res;
-	uint16_t crc;
-	uint16_t errPrev = 0;
-	uint16_t noAnswerPrev = 0;
+	TickType_t	xLastWakeTime = xTaskGetTickCount();
+	BaseType_t 	res;
+	uint16_t 	crc;
+	uint16_t 	errPrev = 0;
+	uint16_t 	noAnswerPrev = 0;
 
 	vTaskDelay(1000);
 
@@ -104,7 +104,7 @@ void uartTSK(void *pPrm){
 
 				memcpy(&fp.tf.state, uart2->pRxBff, sizeof(psState_type) + sizeof(meas_type));
 				if(fp.tf.state.bit.lowInputVoltage != 0){
-					shutdown();
+					//shutdown();
 				}
 				uartTsk.normAnswer++;
 				errPrev = uartTsk.errorAnswer;

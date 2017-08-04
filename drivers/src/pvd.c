@@ -45,12 +45,12 @@ void pvd_init(void){
 void pvd_disable(void){
 	uint32_t apb1enr1 = RCC->APB1ENR1;
 
-	RCC->APB1ENR1 	&= ~RCC_APB1ENR1_PWREN;				//Power interface clock enable
+	RCC->APB1ENR1 	&= ~RCC_APB1ENR1_PWREN;				//Power interface clock disable
 	PWR->CR2		&= ~PWR_CR2_PVDE;					//Power voltage detector disable
 	RCC->APB1ENR1 	= apb1enr1;							//Restore value
 
-    EXTI->IMR1   	&= ~EXTI_IMR1_IM16;					//Interrupt request from Line 16 is not masked
-    EXTI->EMR1   	&= ~EXTI_EMR1_EM16;					//Event request from Line 16 is not masked
+    EXTI->IMR1   	&= ~EXTI_IMR1_IM16;					//Interrupt request from Line 16 is masked
+    EXTI->EMR1   	&= ~EXTI_EMR1_EM16;					//Event request from Line 16 is masked
     EXTI->RTSR1  	&= ~EXTI_RTSR1_RT16;				//Rising trigger event configuration bit of line 16
 
     NVIC_DisableIRQ(PVD_PVM_IRQn);

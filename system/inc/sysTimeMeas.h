@@ -29,7 +29,14 @@
  * Typedef
  */
 typedef enum {
-	sysTimeBs = 0, sysTime1, sysTime2, sysTime3, sysTime4, sysTime5, sysTime6, sysTime7,
+	sysTimeBs = 0,
+	sysTime1,
+	sysTime2,
+	sysTime3,
+	sysTime4,
+	sysTime5,
+	sysTime6,
+	sysTime7,
 } sysTimeNumber_type;
 
 typedef struct {

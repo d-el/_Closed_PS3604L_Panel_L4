@@ -11,9 +11,9 @@
 /******************************************************************************
  * Memory
  */
-base_type bs;
-uint8_t retEf = 0;
-TickType_t timebs, offset;
+base_type	bs;
+uint8_t 	retEf = 0;
+uint32_t 	timebs_us __attribute((used));
 
 /******************************************************************************
  * Base task
@@ -39,7 +39,8 @@ void baseTSK(void *pPrm){
 	enSetNtic(5);
 
 	while(1){
-		offset = xTaskGetTickCount();
+		sysTimeMeasStart(sysTimeBs);
+
 		/**************************************
 		 * Обработка кнопок
 		 */
@@ -252,7 +253,8 @@ void baseTSK(void *pPrm){
 		printStatusBar();
 
 		//Измерение времени выполнения одной итерации задачи
-		timebs = xTaskGetTickCount() - offset;
+		sysTimeMeasStop(sysTimeBs);
+		timebs_us = sysTimeMeasGet_us(sysTimeBs);
 
 		/*************************************/
 		vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(BASE_TSK_PERIOD));                       //Запускать задачу каждые 30ms

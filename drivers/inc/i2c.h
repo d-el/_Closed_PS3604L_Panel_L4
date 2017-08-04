@@ -35,7 +35,7 @@
 #define     I2C2_TC_HOOK                (0)
 #define     I2C2_TxBffSz                (32)
 #define     I2C2_RxBffSz                (32)
-#define     I2C2_EventInterruptPrior    (15)
+#define     I2C2_EventInterruptPrior    (12)
 #define     I2C2_ErrorInterruptPrior    (12)
 #define     I2C2_RxDmaInterruptPrior    (12)
 #define     I2C2_TxDmaInterruptPrior    (12)

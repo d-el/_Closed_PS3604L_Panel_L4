@@ -23,7 +23,7 @@
 /*!****************************************************************************
  * Define
  */
-#define PVD_IRQ_Priority	(15)	///< PVD Interrupt priority
+#define PVD_IRQ_Priority	(13)	///< PVD Interrupt priority
 
 /*!****************************************************************************
  * Enumeration

@@ -37,7 +37,7 @@ void sysTimeMeasDisable(void){
  * @return		number cycles
  */
 uint32_t sysTimeMeasGet_cycles(sysTimeNumber_type n){
-	uint32_t delta = sysTimeStruct.stop[n] - sysTimeStruct.stop[n];
+	uint32_t delta = sysTimeStruct.stop[n] - sysTimeStruct.start[n];
 	return delta;
 }
 
@@ -47,7 +47,7 @@ uint32_t sysTimeMeasGet_cycles(sysTimeNumber_type n){
  * @return		time in milliseconds
  */
 uint32_t sysTimeMeasGet_ms(sysTimeNumber_type n){
-	uint32_t delta = sysTimeStruct.stop[n] - sysTimeStruct.stop[n];
+	uint32_t delta = sysTimeStruct.stop[n] - sysTimeStruct.start[n];
 	uint32_t time = (delta * 1000ULL) / CORE_FREQUENCY;
 	return time;
 }
@@ -58,7 +58,7 @@ uint32_t sysTimeMeasGet_ms(sysTimeNumber_type n){
  * @return		time in microseconds
  */
 uint64_t sysTimeMeasGet_us(sysTimeNumber_type n){
-	uint32_t delta = sysTimeStruct.stop[n] - sysTimeStruct.stop[n];
+	uint32_t delta = sysTimeStruct.stop[n] - sysTimeStruct.start[n];
 	uint64_t time = (delta * 1000000ULL) / CORE_FREQUENCY;
 	return time;
 }
@@ -69,7 +69,7 @@ uint64_t sysTimeMeasGet_us(sysTimeNumber_type n){
  * @return		time in nanoseconds
  */
 uint64_t sysTimeMeasGet_ns(sysTimeNumber_type n){
-	uint32_t delta = sysTimeStruct.stop[n] - sysTimeStruct.stop[n];
+	uint32_t delta = sysTimeStruct.stop[n] - sysTimeStruct.start[n];
 	uint64_t time = (delta * 1000000000ULL) / CORE_FREQUENCY;
 	return time;
 }

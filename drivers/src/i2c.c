@@ -50,7 +50,7 @@ void i2c_init(i2c_type *i2cx){
 
 	}
 #endif //I2C1_USE
-	
+
 #if (I2C2_USE == 1)
 	if(i2cx == i2c2){
 		/************************************************
@@ -59,7 +59,7 @@ void i2c_init(i2c_type *i2cx){
 		i2cx->I2C = I2C2;
 		i2cx->pDmaTxDmaCh = DMA1_Channel4;
 		i2cx->pDmaRxDmaCh = DMA1_Channel5;
-		
+
 		/************************************************
 		 * IO
 		 * PB13 - I2C2_CSCL
@@ -67,27 +67,27 @@ void i2c_init(i2c_type *i2cx){
 		 */
 		gppin_init(GPIOB, 10, alternateFunctionOpenDrain, pullUp, 0, I2C2_PINAFSCL);
 		gppin_init(GPIOB, 11, alternateFunctionOpenDrain, pullUp, 0, I2C2_PINAFSDA);
-		
+
 		/************************************************
 		 * NVIC
 		 */
 		NVIC_EnableIRQ(I2C2_EV_IRQn);           								//Event interrupt enable
-		NVIC_SetPriority(I2C2_EV_IRQn, I2C1_EventInterruptPrior);
+		NVIC_SetPriority(I2C2_EV_IRQn, I2C2_EventInterruptPrior);
 		NVIC_EnableIRQ(I2C2_ER_IRQn);           								//Error interrupt enable
-		NVIC_SetPriority(I2C2_ER_IRQn, I2C1_ErrorInterruptPrior);
-		
+		NVIC_SetPriority(I2C2_ER_IRQn, I2C2_ErrorInterruptPrior);
+
 		/************************************************
 		 * I2C clock
 		 */
 		RCC->APB1ENR1 |= RCC_APB1ENR1_I2C2EN;                         		//USART1 clock enable
 		RCC->APB1RSTR1 |= RCC_APB1RSTR1_I2C2RST;                        		//USART1 reset
 		RCC->APB1RSTR1 &= ~RCC_APB1RSTR1_I2C2RST;
-		
+
 		/************************************************
 		 * DMA clock
 		 */
 		RCC->AHB1ENR |= RCC_AHB1ENR_DMA1EN;
-		
+
 		/************************************************
 		 * DMA request settings
 		 */
@@ -97,32 +97,32 @@ void i2c_init(i2c_type *i2cx){
 		DMA1_CSELR->CSELR |= 0x3 << DMA_CSELR_C5S_Pos;  						//Channel 5 mapped on I2C3_RX
 	}
 #endif //I2C2_USE
-	
+
 #if (I2C3_USE == 1)
 	if(i2cx == i2c3){
 
 	}
 #endif //I2C3_USE
-	
+
 	/************************************************
 	 * I2C
 	 */
 	i2cx->I2C->CR1 |= I2C_CR1_TXDMAEN;								//DMA mode disabled for transmission
 	i2cx->I2C->CR1 |= I2C_CR1_RXDMAEN;								//DMA mode enabled for reception
-			
+
 	i2cx->I2C->CR1 |= I2C_CR1_STOPIE;								//Stop detection (STOPF) interrupt enabled
-			
+
 	i2cx->I2C->CR2 |= I2C_CR2_AUTOEND;							//Automatic end mode: a STOP condition is automatically sent when NBYTES data are transferred
-			
+
 	//I2C_TIMINGR 100 kHz for 48 MHz Peripheral clock	(ref DocID027295 Rev 2 1024/1426)
 	i2cx->I2C->TIMINGR |= (0xB) << I2C_TIMINGR_PRESC_Pos;
 	i2cx->I2C->TIMINGR |= (0x13) << I2C_TIMINGR_SCLL_Pos;
 	i2cx->I2C->TIMINGR |= (0xF) << I2C_TIMINGR_SCLH_Pos;
 	i2cx->I2C->TIMINGR |= (0x2) << I2C_TIMINGR_SDADEL_Pos;
 	i2cx->I2C->TIMINGR |= (0x4) << I2C_TIMINGR_SCLDEL_Pos;
-	
+
 	i2cx->I2C->CR1 |= I2C_CR1_PE;			//Peripheral Enable
-			
+
 	/************************************************
 	 * DMA
 	 */
@@ -138,7 +138,7 @@ void i2c_init(i2c_type *i2cx){
 	i2cx->pDmaTxDmaCh->CNDTR = 0;                                        		//Number of data
 	i2cx->pDmaTxDmaCh->CPAR = (uint32_t) &i2cx->I2C->TXDR;       				//Peripheral address
 	i2cx->pDmaTxDmaCh->CMAR = (uint32_t) NULL;                            		//Memory address
-			
+
 	//DMA Channel USART RX
 	i2cx->pDmaRxDmaCh->CCR &= ~DMA_CCR_EN;                               		//Channel disabled
 	i2cx->pDmaRxDmaCh->CCR |= DMA_CCR_PL_0;                              		//Channel priority level - Medium
@@ -170,7 +170,7 @@ void i2c_write(i2c_type *i2cx, void *src, uint16_t len, uint8_t slaveAdr, i2c_st
 	i2cx->pDmaTxDmaCh->CNDTR = len;
 	i2cx->slaveAdr = slaveAdr;
 	i2cx->stopMode = stopMode;
-	
+
 	if(stopMode == i2cNeedStop){
 		i2cx->I2C->CR2 |= I2C_CR2_AUTOEND;					//Automatic end mode: a STOP condition is automatically sent when NBYTES data are transferred
 		i2cx->I2C->CR1 &= ~I2C_CR1_TXIE;					//TX interrupt disable
@@ -178,13 +178,13 @@ void i2c_write(i2c_type *i2cx, void *src, uint16_t len, uint8_t slaveAdr, i2c_st
 		i2cx->I2C->CR2 &= ~I2C_CR2_AUTOEND;
 		i2cx->I2C->CR1 |= I2C_CR1_TXIE;					//TX interrupt enable
 	}
-	
+
 	i2cx->I2C->CR2 &= ~I2C_CR2_RD_WRN;						//Master requests a write transfer
 	i2cx->I2C->CR2 &= ~I2C_CR2_NBYTES;
 	i2cx->I2C->CR2 |= (len) << I2C_CR2_NBYTES_Pos;			//Number of bytes
 	i2cx->I2C->CR2 &= ~I2C_CR2_SADD;						//Slave address bit (master mode) clear
 	i2cx->I2C->CR2 |= (slaveAdr) << I2C_CR2_SADD_Pos;		//Slave address bit (master mode)
-			
+
 	i2cx->pDmaTxDmaCh->CCR |= DMA_CCR_EN;
 	i2cx->I2C->CR2 |= I2C_CR2_START;			//Generation start condition
 	i2cx->state = i2cTxRun;
@@ -198,18 +198,18 @@ void i2c_read(i2c_type *i2cx, void *dst, uint16_t len, uint8_t slaveAdr){
 	i2cx->pDmaRxDmaCh->CMAR = (uint32_t) dst;
 	i2cx->pDmaRxDmaCh->CNDTR = len;
 	i2cx->slaveAdr = slaveAdr;
-	
+
 	i2cx->I2C->CR2 |= I2C_CR2_AUTOEND;						//Automatic end mode: a STOP condition is automatically sent when NBYTES data are transferred
 	i2cx->I2C->CR1 &= ~I2C_CR1_TXIE;						//TX interrupt disable
-			
+
 	i2cx->I2C->CR2 |= I2C_CR2_RD_WRN;						//Master requests a read transfer
-			
+
 	i2cx->I2C->CR2 &= ~I2C_CR2_NBYTES;
 	i2cx->I2C->CR2 |= (len) << I2C_CR2_NBYTES_Pos;			//Number of bytes
-			
+
 	i2cx->I2C->CR2 &= (~(slaveAdr)) << I2C_CR2_SADD_Pos;	//Slave address bit (master mode)
 	i2cx->I2C->CR2 |= (slaveAdr) << I2C_CR2_SADD_Pos;		//Slave address bit (master mode)
-			
+
 	i2cx->pDmaRxDmaCh->CCR |= DMA_CCR_EN;
 	i2cx->I2C->CR2 |= I2C_CR2_START;			//Generation start condition
 	i2cx->state = i2cRxRun;
