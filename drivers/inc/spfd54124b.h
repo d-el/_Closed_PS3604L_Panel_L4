@@ -15,7 +15,6 @@
 #include "stm32l4xx.h"
 #include "string.h"
 #include "gpio.h"
-#include "fonts.h"
 
 /*!****************************************************************************
  * Define

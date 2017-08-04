@@ -1,11 +1,11 @@
 ﻿/*!****************************************************************************
-* @file    pvd.c
-* @author  d_el
-* @version V1.0
-* @date    01.08.2016, Storozhenko Roman
-* @brief   --
-* @copyright GNU Public License
-*/
+ * @file		pvd.h
+ * @author		d_el - Storozhenko Roman
+ * @version		V1.0
+ * @date		01.08.2016
+ * @copyright	GNU Lesser General Public License v3
+ * @brief		Driver power voltage detector
+ */
 
 /*!****************************************************************************
 * Include
@@ -15,54 +15,59 @@
 /*!****************************************************************************
 * MEMORY
 */
+static suplyFaultCallBack_type suplyFaultCallBack;
 
 /*!****************************************************************************
-* @brief   Обработчик прерывания PVD
-* @param    
-* @retval   
-*/
-void PVD_IRQHandler(void){
-    setLcdBrightness(0);
-	LED_OFF();
-	nvMem_savePrm(&userConfRegion);
-	lcd_disable();
-	BeepTime(ui.beep.goodbye.time, ui.beep.goodbye.freq);
-	LED_ON();
-	delay_ms(10000);
-	NVIC_SystemReset();
-}
-
-/*!****************************************************************************
-* Инициализация PVD с прерыванием
+* @brief	Инициализация PVD с прерыванием
 */
 void pvd_init(void){
-    RCC->APB1ENR |= RCC_APB1ENR_PWREN;                          //Power interface clock enable
-    PWR->CR     |= PWR_CR_PLS_2V9;                              //Напряжение срабатывания
-    PWR->CR     |= PWR_CR_PVDE;                                 //Power voltage detector enable
+	uint32_t apb1enr1 = RCC->APB1ENR1;
 
-    EXTI->IMR   |= EXTI_IMR_MR16;                               //Interrupt request from Line 16 is not masked
-    EXTI->EMR   |= EXTI_EMR_MR16;                               //Event request from Line 16 is not masked
+	RCC->APB1ENR1 	|= RCC_APB1ENR1_PWREN;				//Power interface clock enable
+	PWR->CR2		&= ~PWR_CR2_PVDE;					//Power voltage detector disable
+	PWR->CR2		&= ~PWR_CR2_PLS;
+    PWR->CR2		|= PWR_CR2_PLS_LEV6;				//Power voltage detector level selection VPVD6 around 2.9 V
+    PWR->CR2		|= PWR_CR2_PVDE;					//Power voltage detector enable
+    RCC->APB1ENR1 	= apb1enr1;							//Restore value
 
-    EXTI->RTSR  |= EXTI_RTSR_TR16;                              //Rising trigger event configuration bit of line 16
+    EXTI->IMR1   	|= EXTI_IMR1_IM16;					//Interrupt request from Line 16 is not masked
+    EXTI->EMR1   	|= EXTI_EMR1_EM16;					//Event request from Line 16 is not masked
+    EXTI->RTSR1  	|= EXTI_RTSR1_RT16;					//Rising trigger event configuration bit of line 16
+    EXTI->PR1    	|= EXTI_PR1_PIF16;     				//Pending
 
-    NVIC_EnableIRQ (PVD_IRQn);                                  //PVD through EXTI Line detection Interrupt
-    NVIC_SetPriority (PVD_IRQn, PVD_IRQ_Priority);              //Установить приоритет
+    NVIC_SetPriority(PVD_PVM_IRQn, PVD_IRQ_Priority);
+    NVIC_EnableIRQ(PVD_PVM_IRQn);						//PVD through EXTI Line detection Interrupt
 }
 
 /*!****************************************************************************
-* Инициализация PVD с прерыванием
+* @brief	Инициализация PVD с прерыванием
 */
 void pvd_disable(void){
-    RCC->APB1ENR |= RCC_APB1ENR_PWREN;                          //Power interface clock enable
-    PWR->CR     |= PWR_CR_PLS_2V9;                              //Напряжение срабатывания
-    PWR->CR     |= PWR_CR_PVDE;                                 //Power voltage detector enable
+	uint32_t apb1enr1 = RCC->APB1ENR1;
 
-    EXTI->IMR   &= EXTI_IMR_MR16;                               //Interrupt request from Line 16 is not masked
-    EXTI->EMR   &= EXTI_EMR_MR16;                               //Event request from Line 16 is not masked
+	RCC->APB1ENR1 	&= ~RCC_APB1ENR1_PWREN;				//Power interface clock enable
+	PWR->CR2		&= ~PWR_CR2_PVDE;					//Power voltage detector disable
+	RCC->APB1ENR1 	= apb1enr1;							//Restore value
 
-    EXTI->RTSR  |= EXTI_RTSR_TR16;                              //Rising trigger event configuration bit of line 16
+    EXTI->IMR1   	&= ~EXTI_IMR1_IM16;					//Interrupt request from Line 16 is not masked
+    EXTI->EMR1   	&= ~EXTI_EMR1_EM16;					//Event request from Line 16 is not masked
+    EXTI->RTSR1  	&= ~EXTI_RTSR1_RT16;				//Rising trigger event configuration bit of line 16
 
-    NVIC_DisableIRQ (PVD_IRQn);                                  //PVD through EXTI Line detection Interrupt
+    NVIC_DisableIRQ(PVD_PVM_IRQn);
 }
 
-/*************** GNU GPL ************** END OF FILE ********* D_EL ***********/
+/*!****************************************************************************
+ *
+ */
+void pvd_setSuplyFaultCallBack(suplyFaultCallBack_type callBack){
+	suplyFaultCallBack = callBack;
+}
+
+/*!****************************************************************************
+* @brief	Обработчик прерывания PVD
+*/
+void PVD_PVM_IRQHandler(void){
+	suplyFaultCallBack();
+}
+
+/*************** LGPL ************** END OF FILE *********** D_EL ************/

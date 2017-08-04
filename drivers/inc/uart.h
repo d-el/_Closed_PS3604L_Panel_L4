@@ -79,21 +79,25 @@ typedef enum {
 	uartRxFree, uartRxRun, uartRxSuccess, uartRxStop, uartRxErr
 } uartRxState_type;
 
-typedef struct {
-	USART_TypeDef *pUart;
-	uint8_t *pTxBff;
-	uint8_t *pRxBff;
-	DMA_Channel_TypeDef *pUartTxDmaCh;
-	DMA_Channel_TypeDef *pUartRxDmaCh;
-	volatile uartTxState_type txState :8;
-	volatile uartRxState_type rxState :8;
-	uartTxState_type baudRate :4;
-	uint8_t halfDuplex :1;
-	uint8_t rxIdleLineMode :1;
-	volatile uint16_t txCnt;
-	volatile uint16_t rxCnt;
-	volatile uint16_t errorRxCnt;
+typedef struct uartStruct{
+	USART_TypeDef				*pUart;
+	uint8_t						*pTxBff;
+	uint8_t						*pRxBff;
+	DMA_Channel_TypeDef 		*pUartTxDmaCh;
+	DMA_Channel_TypeDef 		*pUartRxDmaCh;
+	volatile uartTxState_type 	txState :8;
+	volatile uartRxState_type 	rxState :8;
+	uartTxState_type 			baudRate :4;
+	uint8_t 					halfDuplex :1;
+	uint8_t 					rxIdleLineMode :1;
+	volatile uint16_t 			txCnt;
+	volatile uint16_t 			rxCnt;
+
+	void (*txHoock)(struct uartStruct *uart);
+	void (*rxHoock)(struct uartStruct *uart);
 } uart_type;
+
+typedef void (*uartCallback_type)(uart_type *uart);
 
 /*!****************************************************************************
  * Extern viriables
@@ -132,6 +136,7 @@ void uart2RxHook(void){
  */
 void uart_init(uart_type *uartx, uartBaudRate_type baudRate);
 void uart_deinit(uart_type *uartx);
+void uart_setCallback(uart_type *uartx, uartCallback_type txHoock, uartCallback_type rxHoock);
 void uart_setBaud(uart_type *uartx, uartBaudRate_type baudRate);
 void uart_write(uart_type *uartx, void *src, uint16_t len);
 void uart_read(uart_type *uartx, void *dst, uint16_t len);

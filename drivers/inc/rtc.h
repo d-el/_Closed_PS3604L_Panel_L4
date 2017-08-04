@@ -1,10 +1,10 @@
 ﻿/*!****************************************************************************
- * @file    rtc
- * @author  d_el
- * @version V1.0
- * @date    05.12.2015, by d_el
- * @brief   --
- * @copyright GNU Public License
+ * @file		storage.h
+ * @author		d_el - Storozhenko Roman
+ * @version		V1.0
+ * @date		05.12.2015
+ * @copyright	GNU Lesser General Public License v3
+ * @brief		RTC driver
  */
 #ifndef rtc_H
 #define rtc_H
@@ -18,32 +18,26 @@
 #include <time.h>
 
 /*!****************************************************************************
- * User define
+ * Define
  */
 #define RTC_LSE_TIMEOUT	(10000)
+
 /*!****************************************************************************
- * User typedef
+ * Typedef
  */
 typedef enum {
-	rtc_wasOn, rtc_initOk, rtc_setOk, rtc_error,
+	rtc_wasOn,
+	rtc_initOk,
+	rtc_setOk,
+	rtc_error,
 } rtcStatus_type;
 
-typedef struct {
-	uint16_t year;  ///< Year
-	uint8_t mon;   ///< Month
-	uint8_t mday;  ///< The day of the month
-	uint8_t hour;  ///< Hour
-	uint8_t min;   ///< Minutes
-	uint8_t sec;   ///< Second
-	uint8_t wday;  ///< The day of week (0-6, Sunday is zero)
-} time_type;
-
 /*!****************************************************************************
- * User enum
+ * Enumeration
  */
 
 /*!****************************************************************************
- * Extern viriables
+ * Exported variables
  */
 extern time_t unixTime;
 extern struct tm timeStrct;
@@ -53,7 +47,7 @@ extern struct tm timeStrct;
  */
 
 /*!****************************************************************************
- * Prototypes for the functions
+ * Function declaration
  */
 rtcStatus_type rtc_init(void);
 void rtc_getTime(struct tm *time);
@@ -63,4 +57,4 @@ void rtc_writeToBkp(uint32_t val);
 uint32_t rtc_ReadFromBkp(void);
 
 #endif //rtc_H
-/*************** GNU GPL ************** END OF FILE ********* D_EL ***********/
+/*************** LGPL ************** END OF FILE *********** D_EL ************/

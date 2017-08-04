@@ -51,15 +51,15 @@ typedef struct menuItem{
 	char *units;
 	const prmHandle_type *prmHandle;
 	uint32_t (*pfChanges)(const struct menuItem*);
-	uint32_t (*pfSelect)(const struct menuItem*); /**< Pointer to the optional menu-specific select callback of this menu item */
+	uint32_t (*pfSelect)(const struct menuItem*); 	/**< Pointer to the optional menu-specific select callback of this menu item */
 	uint32_t (*pfUnselect)(const struct menuItem*); /**< Pointer to the optional menu-specific unselect callback of this menu item */
-	uint32_t (*pfPeriod)(const struct menuItem*); /**< Pointer to the optional menu-specific periodic callback of this menu item */
-	
-	const struct menuItem *next; /**< Pointer to the next menu item of this menu item */
-	const struct menuItem *previous; /**< Pointer to the previous menu item of this menu item */
-	const struct menuItem *parent; /**< Pointer to the parent menu item of this menu item */
-	const struct menuItem *child; /**< Pointer to the child menu item of this menu item */
-	
+	uint32_t (*pfPeriod)(const struct menuItem*); 	/**< Pointer to the optional menu-specific periodic callback of this menu item */
+
+	const struct menuItem *next; 		/**< Pointer to the next menu item of this menu item */
+	const struct menuItem *previous; 	/**< Pointer to the previous menu item of this menu item */
+	const struct menuItem *parent; 		/**< Pointer to the parent menu item of this menu item */
+	const struct menuItem *child; 		/**< Pointer to the child menu item of this menu item */
+
 	menuFlags_type flags;
 } menuItem_type;
 

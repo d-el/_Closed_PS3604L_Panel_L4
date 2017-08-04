@@ -31,6 +31,7 @@ void systemTSK(void *pPrm){
 	BaseType_t 		Result = pdTRUE;
 
 	loadParameters();
+	pvd_setSuplyFaultCallBack(shutdown);
 
 	while(1){
 		if(selWindowPrev != fp.currentSelWindow){
@@ -118,7 +119,6 @@ void loadParameters(void){
 	}
 }
 
-
 /*!****************************************************************************
  * @brief	Select window task & wait selectable
  * 			This function need call from current GUI window
@@ -129,6 +129,21 @@ void selWindow(selWindow_type window){
 	while(windowTskHandle != NULL){
 		vTaskDelay(1000);
 	}
+}
+
+/*!****************************************************************************
+ * Выключение
+ */
+void shutdown(void){
+	pvd_disable();
+	setLcdBrightness(0);
+	LED_OFF();
+	nvMem_savePrm(&userConfRegion);
+	spfd_disable();
+	BeepTime(ui.beep.goodbye.time, ui.beep.goodbye.freq);
+	LED_ON();
+	delay_ms(10000);
+	NVIC_SystemReset();
 }
 
 /*************** LGPL ************** END OF FILE *********** D_EL ************/

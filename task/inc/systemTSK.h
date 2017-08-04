@@ -21,6 +21,7 @@
 #include "pstypes.h"
 #include "prmSystem.h"
 #include "cube3d.h"
+#include "pvd.h"
 
 /*!****************************************************************************
  * Define
@@ -78,6 +79,7 @@ extern frontPanel_type fp;
  */
 void selWindow(selWindow_type window);
 void systemTSK(void *pPrm);
+void shutdown(void);
 
 #endif //systemTSK_H
 /*************** LGPL ************** END OF FILE *********** D_EL ************/

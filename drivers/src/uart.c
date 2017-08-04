@@ -88,7 +88,7 @@ void uart_init(uart_type *uartx, uartBaudRate_type baudRate){
 #if(UART1_RX_IDLE_LINE_MODE > 0)
 		uartx->rxIdleLineMode = 1;
 #endif
-		
+
 		/************************************************
 		 * IO
 		 */
@@ -98,7 +98,7 @@ void uart_init(uart_type *uartx, uartBaudRate_type baudRate){
 #else
 		uartx->halfDuplex = 1;
 #endif
-		
+
 		/************************************************
 		 * NVIC
 		 */
@@ -108,7 +108,7 @@ void uart_init(uart_type *uartx, uartBaudRate_type baudRate){
 		NVIC_EnableIRQ(DMA1_Channel5_IRQn);                                 //Включить прерывания от DMA1_Channel 5
 		NVIC_SetPriority(DMA1_Channel5_IRQn, UART1_RxDmaInterruptPrior);//Установить приоритет
 #endif
-		
+
 		/************************************************
 		 * USART clock
 		 */
@@ -130,7 +130,7 @@ void uart_init(uart_type *uartx, uartBaudRate_type baudRate){
 		DMA1_CSELR->CSELR |= 0x2 << DMA_CSELR_C5S_Pos;//Channel 5 mapped on USART1_RX
 	}
 #endif //UART1_USE
-	
+
 #if(UART2_USE > 0)
 	if(uartx == uart2){
 		/************************************************
@@ -144,7 +144,7 @@ void uart_init(uart_type *uartx, uartBaudRate_type baudRate){
 #if (UART2_RX_IDLE_LINE_MODE > 0)
 		uartx->rxIdleLineMode = 1;
 #endif
-		
+
 		/************************************************
 		 * IO
 		 */
@@ -154,7 +154,7 @@ void uart_init(uart_type *uartx, uartBaudRate_type baudRate){
 #else
 		uartx->halfDuplex = 1;
 #endif
-		
+
 		/************************************************
 		 * NVIC
 		 */
@@ -164,19 +164,19 @@ void uart_init(uart_type *uartx, uartBaudRate_type baudRate){
 		NVIC_EnableIRQ(DMA1_Channel6_IRQn);                                 	//Включить прерывания от DMA1_Channel 6
 		NVIC_SetPriority(DMA1_Channel6_IRQn, UART2_RxDmaInterruptPrior);//Установить приоритет
 #endif
-		
+
 		/************************************************
 		 * USART clock
 		 */
 		RCC->APB1ENR1 |= RCC_APB1ENR1_USART2EN;                            	//USART1 clock enable
 		RCC->APB1RSTR1 |= RCC_APB1RSTR1_USART2RST;                          	//USART1 reset
 		RCC->APB1RSTR1 &= ~RCC_APB1RSTR1_USART2RST;
-		
+
 		/************************************************
 		 * DMA clock
 		 */
 		RCC->AHB1ENR |= RCC_AHB1ENR_DMA1EN;
-		
+
 		/************************************************
 		 * DMA request settings
 		 */
@@ -186,7 +186,7 @@ void uart_init(uart_type *uartx, uartBaudRate_type baudRate){
 		DMA1_CSELR->CSELR |= 0x2 << DMA_CSELR_C6S_Pos;  						//Channel 6 mapped on USART1_RX
 	}
 #endif //UART2_USE
-	
+
 #if(UART3_USE > 0)
 	if(uartx == uart3){
 		/************************************************
@@ -200,7 +200,7 @@ void uart_init(uart_type *uartx, uartBaudRate_type baudRate){
 #if (UART3_RX_IDLE_LINE_MODE > 0)
 		uartx->rxIdleLineMode = 1;
 #endif
-		
+
 		/************************************************
 		 * IO
 		 */
@@ -210,7 +210,7 @@ void uart_init(uart_type *uartx, uartBaudRate_type baudRate){
 #else
 		uartx->halfDuplex = 1;
 #endif
-		
+
 		/************************************************
 		 * NVIC
 		 */
@@ -220,7 +220,7 @@ void uart_init(uart_type *uartx, uartBaudRate_type baudRate){
 		NVIC_EnableIRQ(DMA1_Channel3_IRQn);                                 	//Включить прерывания от DMA1_Channel 3
 		NVIC_SetPriority(DMA1_Channel3_IRQn, UART3_RxDmaInterruptPrior);//Установить приоритет
 #endif
-		
+
 		/************************************************
 		 * USART clock
 		 */
@@ -242,7 +242,7 @@ void uart_init(uart_type *uartx, uartBaudRate_type baudRate){
 		DMA1_CSELR->CSELR |= 0x2 << DMA_CSELR_C3S_Pos;//Channel 3 mapped on USART3_RX
 	}
 #endif //UART3_USE
-	
+
 	/************************************************
 	 * USART
 	 */
@@ -252,11 +252,11 @@ void uart_init(uart_type *uartx, uartBaudRate_type baudRate){
 	uartx->pUart->CR1 |= USART_CR1_UE;                                		//UART enable
 	uartx->pUart->CR1 &= ~USART_CR1_M;                                		//8bit
 	uartx->pUart->CR2 &= ~USART_CR2_STOP;                             		//1 stop bit
-			
+
 	uartx->pUart->BRR = usartBaudRateDiv[baudRate];                   		//Baud rate
 	uartx->pUart->CR3 |= USART_CR3_DMAT;                              		//DMA enable transmitter
 	uartx->pUart->CR3 |= USART_CR3_DMAR;                              		//DMA enable receiver
-			
+
 	uartx->pUart->CR1 |= USART_CR1_TE;                                		//Transmitter enable
 	uartx->pUart->CR1 |= USART_CR1_RE;                                		//Receiver enable
 	//while((uartx->pUart->ISR & USART_ISR_IDLE) == 0) __NOP();
@@ -265,9 +265,9 @@ void uart_init(uart_type *uartx, uartBaudRate_type baudRate){
 		uartx->pUart->ICR = USART_ICR_IDLECF;								//Clear flag
 		uartx->pUart->CR1 |= USART_CR1_IDLEIE;
 	}
-	
+
 	uartx->pUart->CR1 |= USART_CR1_TCIE;                              		//Enable the interrupt transfer complete
-			
+
 	/************************************************
 	 * DMA
 	 */
@@ -284,7 +284,7 @@ void uart_init(uart_type *uartx, uartBaudRate_type baudRate){
 	uartx->pUartTxDmaCh->CNDTR = 0;                                        		//Number of data
 	uartx->pUartTxDmaCh->CPAR = (uint32_t) &(uartx->pUart->TDR);       			//Peripheral address
 	uartx->pUartTxDmaCh->CMAR = (uint32_t) NULL;                            		//Memory address
-			
+
 	//DMA Channel USART RX
 	uartx->pUartRxDmaCh->CCR &= ~DMA_CCR_EN;                               		//Channel disabled
 	uartx->pUartRxDmaCh->CCR |= DMA_CCR_PL_0;                              		//Channel priority level - Medium
@@ -313,7 +313,7 @@ void uart_deinit(uart_type *uartx){
 		NVIC_DisableIRQ(DMA1_Channel5_IRQn);
 	}
 #endif //UART1_USE
-	
+
 #if (UART2_USE > 0)
 	if(uartx->pUart == USART2){
 		RCC->APB1ENR1 &= ~RCC_APB1ENR1_USART2EN;           					//USART1 clock disable
@@ -321,7 +321,7 @@ void uart_deinit(uart_type *uartx){
 		NVIC_DisableIRQ(DMA1_Channel7_IRQn);
 	}
 #endif //UART2_USE
-	
+
 #if (UART3_USE > 0)
 	if(uartx->pUart == USART3){
 		RCC->APB1ENR1 &= ~RCC_APB1ENR1_USART3EN;       						//USART1 clock disable
@@ -329,6 +329,17 @@ void uart_deinit(uart_type *uartx){
 		NVIC_DisableIRQ(DMA1_Channel3_IRQn);
 	}
 #endif //UART3_USE
+}
+
+/*!****************************************************************************
+ * @brief
+ * @param 	uartx
+ * @param 	txHoock
+ * @param 	rxHoock
+ */
+void uart_setCallback(uart_type *uartx, uartCallback_type txHoock, uartCallback_type rxHoock){
+	uartx->txHoock = txHoock;
+	uartx->rxHoock = rxHoock;
 }
 
 /*!****************************************************************************
@@ -423,7 +434,7 @@ void DMA1_Channel5_IRQHandler(void){
 #if (UART2_USE > 0)
 void USART2_IRQHandler(void){
 	uint16_t uartsr = uart2->pUart->ISR;
-	
+
 	/************************************************
 	 * USART TRANSFER COMPLETE
 	 */

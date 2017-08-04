@@ -66,16 +66,16 @@ void spfd_initSpi2(void){
 	_gppin_set(GPIOA, pinm7);
 
 	//Максимальная скорость - fPCLK/2
-	RCC->APB2ENR |= RCC_APB2ENR_SPI1EN;                      //Clock enable
-	RCC->APB2RSTR |= RCC_APB2RSTR_SPI1RST;					//Reset module
+	RCC->APB2ENR |= RCC_APB2ENR_SPI1EN;		//Clock enable
+	RCC->APB2RSTR |= RCC_APB2RSTR_SPI1RST;	//Reset module
 	RCC->APB2RSTR &= ~RCC_APB2RSTR_SPI1RST;
 
 	//SPI1->CR1       |= SPI_CR1_BR_1;
-	SPI1->CR1 |= SPI_CR1_MSTR;                            //Master configuration
-	SPI1->CR1 |= SPI_CR1_SSM;                             //Software slave management enabled
-	SPI1->CR1 |= SPI_CR1_SSI;                             //Игнорирование NSS входа
-	SPI1->CR2 = SPI_CR2_DS_3;							//Data size 9bit
-	SPI1->CR1 |= SPI_CR1_SPE;                             //SPI enable
+	SPI1->CR1 |= SPI_CR1_MSTR;				//Master configuration
+	SPI1->CR1 |= SPI_CR1_SSM;				//Software slave management enabled
+	SPI1->CR1 |= SPI_CR1_SSI;				//Игнорирование NSS входа
+	SPI1->CR2 = SPI_CR2_DS_3;				//Data size 9bit
+	SPI1->CR1 |= SPI_CR1_SPE;				//SPI enable
 }
 
 /*!****************************************************************************
@@ -128,24 +128,24 @@ void spfd_init(void){
 	spfd_initSpi2();
 
 	HI_lcd_rst;
-	for(int i = 0; i < 10000; i++){
+	for(uint32_t i = 0; i < 10000; i++){
 		__NOP();
 	}
 	LO_lcd_rst;
-	for(int i = 0; i < 10000; i++){
+	for(uint32_t i = 0; i < 10000; i++){
 		__NOP();
 	}
 	HI_lcd_rst;
-	for(int i = 0; i < 10000; i++){
+	for(uint32_t i = 0; i < 10000; i++){
 		__NOP();
 	}
 
 	spfd_lcdCmd(0xBA);
 	spfd_lcdDat(0x07);
-	spfd_lcdDat(0x15); // Порядок отсылки данных
+	spfd_lcdDat(0x15); //Порядок отсылки данных
 
 	spfd_lcdCmd(0x25);
-	spfd_lcdDat(0x3F); // Контраст
+	spfd_lcdDat(0x3F);	//Контраст
 	spfd_lcdCmd(0x11);	//Выход из режима sleep (sleepout)
 	//lcd_cmd(0x14);
 
@@ -163,7 +163,7 @@ void spfd_init(void){
 	spfd_lcdCmd(0x20);	//INVOFF
 	spfd_lcdCmd(0x13);	//NORON
 
-	memset(videoBff, 0xFF, sizeof(videoBff));	//Clear video buffer
+	memset(videoBff, 0xFF, sizeof(videoBff));
 	spfd_initSpi2DMA();
 	spfd_updateVideoStart();
 }
@@ -205,15 +205,15 @@ void spfd_gotoxy(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1){
 	//Выбираем диапазон столбцов
 	spfd_lcdCmd(0x2A);        				//CASETP command –
 	spfd_lcdDat(0);           				//Второй байт всегда нулевой, т.к. передача по 2 байта
-	spfd_lcdDat(displayOffsetX + x0);         //Левый угол - x
+	spfd_lcdDat(displayOffsetX + x0);		//Левый угол - x
 	spfd_lcdDat(0);
 	spfd_lcdDat(displayOffsetX + x1);     	//Правый угол – x
 	// Диапазон строк
 	spfd_lcdCmd(0x2B);        				//PASETP command
 	spfd_lcdDat(0);
-	spfd_lcdDat(displayOffsetY + y0);         //Левый угол - y
+	spfd_lcdDat(displayOffsetY + y0);		//Левый угол - y
 	spfd_lcdDat(0);
-	spfd_lcdDat(displayOffsetY + y1);       	//Правый угол - y
+	spfd_lcdDat(displayOffsetY + y1);		//Правый угол - y
 	spfd_lcdCmd(0x2C);        				//RAMWR command
 }
 

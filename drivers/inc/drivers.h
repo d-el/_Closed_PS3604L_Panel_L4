@@ -4,7 +4,7 @@
  * @version		V1.0
  * @date		05-07-2013
  * @copyright	GNU Lesser General Public License v3
- * @brief		Driver display on controller spfd54124b
+ * @brief		MCU peripheral initialization
  */
 
 #ifndef DRIVERS_H
@@ -49,7 +49,6 @@
  * Function declaration
  */
 void hardInit(void);
-void shutdown(void);
 
 #endif //DRIVERS_H
 /*************** LGPL ************** END OF FILE *********** D_EL ************/

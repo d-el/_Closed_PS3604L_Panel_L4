@@ -1,10 +1,10 @@
 ﻿/*!****************************************************************************
- * @file    pvd.h
- * @author  d_el
- * @version V1.0
- * @date    01.08.2016, Storozhenko Roman
- * @brief   --
- * @copyright GNU Public License
+ * @file		pvd.h
+ * @author		d_el - Storozhenko Roman
+ * @version		V1.0
+ * @date		01.08.2016
+ * @copyright	GNU Lesser General Public License v3
+ * @brief		Driver power voltage detector
  */
 #ifndef pvd_H
 #define pvd_H
@@ -21,19 +21,21 @@
 #include "stdlib.h"
 
 /*!****************************************************************************
- * User define
+ * Define
+ */
+#define PVD_IRQ_Priority	(15)	///< PVD Interrupt priority
+
+/*!****************************************************************************
+ * Enumeration
  */
 
 /*!****************************************************************************
- * User enum
+ * Typedef
  */
+typedef void (*suplyFaultCallBack_type)(void);
 
 /*!****************************************************************************
- * User typedef
- */
-
-/*!****************************************************************************
- * Extern viriables
+ * Exported variables
  */
 
 /*!****************************************************************************
@@ -41,10 +43,15 @@
  */
 
 /*!****************************************************************************
+ * Function declaration
+ */
+
+/*!****************************************************************************
  * Prototypes for the functions
  */
 void pvd_init(void);
 void pvd_disable(void);
+void pvd_setSuplyFaultCallBack(suplyFaultCallBack_type callBack);
 
 #endif //pvd_H
-/*************** GNU GPL ************** END OF FILE ********* D_EL ***********/
+/*************** LGPL ************** END OF FILE *********** D_EL ************/
