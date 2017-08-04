@@ -30,18 +30,13 @@
 	.power				= _power,						\
 	.save				= _save,						\
 },
-
 //! Parameters handlers
 const prmHandle_type prmh[] = {
 	#include "parametres.h"
 };
-
 //! Parameters handlers length
 const uint16_t prmHandleLen = sizeof(prmh) / sizeof(prmHandle_type);
-
 #undef parametres
-
-
 
 /*!****************************************************************************
  * @brief	Write value to parameter

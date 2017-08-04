@@ -31,26 +31,29 @@ const menuItem_type item_##_name = {				\
 	.parent					= &item_##_parent,			\
 	.child					= &item_##_child,			\
 };
-
 #include "menuTree.h"
-
 #undef MENU_ITEM
 
-/*!****************************************************************************
- * @brief    Setting system task
- */
+
 char mstring[22];
 char pstring[22];
 const menuItem_type *pathMenu[5];
 const menuItem_type *selectPathMenu[5];
 
+/*!****************************************************************************
+ * Define
+ */
 #define MENU_SCREEN_W		160
 #define MENU_POS_LABEL		0
 #define MENU_POS_VAR		64
 #define MENU_Y_DISTANCE		14
 
+/*!****************************************************************************
+ * @brief
+ * @param 	startMenuItem	- starting menu item
+ */
 void menuEngine(const menuItem_type *startMenuItem){
-	portTickType 		xLastWakeTime;              //Вемя ОС
+	TickType_t 			xLastWakeTime;              //Вемя ОС
 
 	const menuItem_type **topMenu = pathMenu;
 	const menuItem_type **sMenu = selectPathMenu;
@@ -60,7 +63,7 @@ void menuEngine(const menuItem_type *startMenuItem){
 	uint8_t 			bigstepUp = 0;
 	uint8_t 			bigstepDown = 0;
 	uint8_t 			setDef = 0;
-	enStatus_type 	enstatus;
+	enStatus_type 		enstatus;
 
 	pathMenu[0] = startMenuItem;
 	*sMenu = *topMenu;

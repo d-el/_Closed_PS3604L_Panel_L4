@@ -20,7 +20,7 @@
 #include "board.h"
 #include "pstypes.h"
 #include "prmSystem.h"
-#include "cube3d.h"
+#include "cube3dTSK.h"
 #include "pvd.h"
 
 /*!****************************************************************************

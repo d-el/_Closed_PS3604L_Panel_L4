@@ -9,7 +9,7 @@
 /*!****************************************************************************
  * Include
  */
-#include "cube3d.h"
+#include "cube3dTSK.h"
 
 /*!****************************************************************************
  * MEMORY
@@ -74,11 +74,11 @@ void cube3dTSK(void *pPrm){
 	float f;                                  //Временная переменная
 	char x2d[MESH_COUNT], y2d[MESH_COUNT];   //”Плоские” точки
 	pairsOfPoints_type pairsOfPoints[MESH_COUNT];
-	
+
 	old_val_encoder = enGeReg();
 	lcd_fillScreen(black);
 	lcd_setColor(black, white);
-	
+
 	while(1){
 		//Расставляем точки модели, считаем что центр куба
 		//совпадает с центром координат
@@ -106,7 +106,7 @@ void cube3dTSK(void *pPrm){
 		Xa[7] = -CUBE_SIZE;
 		Ya[7] = -CUBE_SIZE;
 		Za[7] = -CUBE_SIZE;
-		
+
 		//Вращаем наши точки, фактически матрицы вращения упрощенные
 		for(i = 0; i < DOTS_COUNT; i++){ //по X
 			y1 = Ya[i];
@@ -115,7 +115,7 @@ void cube3dTSK(void *pPrm){
 			Ya[i] = (int32_t) (_IQcos(angle) * y1 - _IQsin(angle) * z1) / _IQ(1);
 			Za[i] = (int32_t) (_IQcos(angle) * z1 + _IQsin(angle) * y1) / _IQ(1);
 		}
-		
+
 		for(i = 0; i < DOTS_COUNT; i++){ //по Y
 			x1 = Xa[i];
 			z1 = Za[i];
@@ -123,7 +123,7 @@ void cube3dTSK(void *pPrm){
 			Xa[i] = (int32_t) (_IQcos(angle) * x1 + _IQsin(angle) * z1) / _IQ(1);
 			Za[i] = (int32_t) (-_IQsin(angle) * x1 + _IQcos(angle) * z1) / _IQ(1);
 		}
-		
+
 		for(i = 0; i < DOTS_COUNT; i++){ //и Z незабыть!
 			x1 = Xa[i];
 			y1 = Ya[i];
@@ -131,7 +131,7 @@ void cube3dTSK(void *pPrm){
 			Xa[i] = (int32_t) (_IQcos(angle) * x1 - _IQsin(angle) * y1) / _IQ(1);
 			Ya[i] = (int32_t) (_IQcos(angle) * y1 + _IQsin(angle) * x1) / _IQ(1);
 		}
-		
+
 		//Трансформация координат вершин в экранные
 		for(i = 0; i < DOTS_COUNT; i++){
 			//1000 и 1200 определяют расстояние от  объекта до камеры и
@@ -140,21 +140,21 @@ void cube3dTSK(void *pPrm){
 			x2d[i] = (uint8_t) ((f * (float) Xa[i]) + LCD_X_SIZE / 2);
 			y2d[i] = (uint8_t) ((f * (float) Ya[i]) + LCD_Y_SIZE / 2);
 		}
-		
+
 		//Рисуем ребра/сетку
 		for(i = 0; i < MESH_COUNT; i++){
 			grf_line(pairsOfPoints[i].x1, pairsOfPoints[i].y1,       //Рисуем линию черным цветом
 					pairsOfPoints[i].x2, pairsOfPoints[i].y2, black);
-			
+
 			pairsOfPoints[i].x1 = x2d[s1[i]];
 			pairsOfPoints[i].y1 = y2d[s1[i]];
 			pairsOfPoints[i].x2 = x2d[f1[i]];
 			pairsOfPoints[i].y2 = y2d[f1[i]];
-			
+
 			grf_line(pairsOfPoints[i].x1, pairsOfPoints[i].y1,       //Рисуем линию
 					pairsOfPoints[i].x2, pairsOfPoints[i].y2, colors[i]);
 		}
-		
+
 		//Устанавливаем новые углы
 		static _iq alpha = 0;
 		alpha += _IQ((2 * M_PI) / 64);
@@ -164,17 +164,17 @@ void cube3dTSK(void *pPrm){
 			alpha += _IQ(M_PI);
 		}
 		dir_x = dir_y = dir_z = alpha;
-		
+
 		if((keyProc() != 0) || (old_val_encoder != enGeReg())){
 			BeepTime(ui.beep.key.time, ui.beep.key.freq);
 			selWindow(baseWindow);
 		}
-		
+
 		//Печать времени
 		rtc_getTime(&timeStrct);
 		strftime(str, sizeof(str), "%H:%M:%S", &timeStrct);
 		lcd_putStr(48, 110, &arial, 0, str);
-		
+
 		vTaskDelay(40);
 	}
 }

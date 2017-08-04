@@ -23,15 +23,19 @@
  * User define
  */
 #define KEY_NUM             7
-#define KEY_SAMPLES         4
-//#define KEY_T_SAMPLES       50      ///< [ms]
-//#define KEY_T_PRESS_POWER   1000    ///< [ms]
+#define KEY_SAMPLES         3
 
 /*!****************************************************************************
  * User typedef
  */
 typedef enum {
-	kMode = (1 << 0), kView = (1 << 1), kOnOff = (1 << 2), kNext = (1 << 3), kZero = (1 << 4), kUp = (1 << 5), kDown = (1 << 6),
+	kMode = 	(1 << 0),
+	kView = 	(1 << 1),
+	kOnOff = 	(1 << 2),
+	kNext = 	(1 << 3),
+	kZero = 	(1 << 4),
+	kUp = 		(1 << 5),
+	kDown = 	(1 << 6),
 } kKey_type;
 
 typedef struct {

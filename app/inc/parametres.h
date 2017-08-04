@@ -7,6 +7,8 @@
  * @brief		Parameters table
  */
 
+//			label		,units,prm						,type			,chmo			d,def	,min	,max		,step	,bigstep,power,save
+
 /* RTC */
 parametres(utcTime		,""	,unixTime					,unixDateFrmt	,chmodNone		,0		,0		,0			,0		,0		,0	,prmNotSave)
 parametres(utcTime2		,""	,unixTime					,unixTimeFrmt	,chmodNone		,0		,0		,0			,0		,0		,0	,prmNotSave)
@@ -18,23 +20,23 @@ parametres(min			,""	,timeStrct.tm_min			,s32Frmt		,chmodAlways	,0		,0		,59			,1
 parametres(sec			,""	,timeStrct.tm_sec			,s32Frmt		,chmodAlways	,0		,0		,59			,1		,10		,0	,prmNotSave)
 
 //Base Task 0
-parametres(bsSet0u		,""	,bs.set[0].u				,u16Frmt		,chmodAlways	,1.000	,0		,36.000		,0.010	,1.000	,3	,prmEeprom)
-parametres(bsSet0i		,""	,bs.set[0].i				,u16Frmt		,chmodAlways	,0.100	,0		,4.000		,0.001	,0.500	,3	,prmEeprom)
-parametres(bsSet0m		,""	,bs.set[0].mode				,u8Frmt			,chmodAlways	,1		,0		,2			,1		,1		,0	,prmEeprom)
+parametres(bsSet0u		,""	,bs.set[0].u				,u16Frmt		,chmodAlways	,0		,0		,36.000		,0.010	,1.000	,3	,prmEeprom)
+parametres(bsSet0i		,""	,bs.set[0].i				,u16Frmt		,chmodAlways	,0		,0		,4.000		,0.001	,0.500	,3	,prmEeprom)
+parametres(bsSet0m		,""	,bs.set[0].mode				,u8Frmt			,chmodAlways	,0		,0		,2			,1		,1		,0	,prmEeprom)
 //Base Task 1
-parametres(bsSet1u		,""	,bs.set[1].u				,u16Frmt		,chmodAlways	,4.200	,0		,36.000		,0.010	,1.000	,3	,prmEeprom)
-parametres(bsSet1i		,""	,bs.set[1].i				,u16Frmt		,chmodAlways	,0.100	,0		,4.000		,0.001	,0.500	,3	,prmEeprom)
-parametres(bsSet1m		,""	,bs.set[1].mode				,u8Frmt			,chmodAlways	,1		,0		,2			,1		,1		,0	,prmEeprom)
+parametres(bsSet1u		,""	,bs.set[1].u				,u16Frmt		,chmodAlways	,0		,0		,36.000		,0.010	,1.000	,3	,prmEeprom)
+parametres(bsSet1i		,""	,bs.set[1].i				,u16Frmt		,chmodAlways	,0		,0		,4.000		,0.001	,0.500	,3	,prmEeprom)
+parametres(bsSet1m		,""	,bs.set[1].mode				,u8Frmt			,chmodAlways	,0		,0		,2			,1		,1		,0	,prmEeprom)
 //Base Task 2
-parametres(bsSet2u		,""	,bs.set[2].u				,u16Frmt		,chmodAlways	,12.000	,0		,36.000		,0.010	,1.000	,3	,prmEeprom)
-parametres(bsSet2i		,""	,bs.set[2].i				,u16Frmt		,chmodAlways	,0.100	,0		,4.000		,0.001	,0.500	,3	,prmEeprom)
-parametres(bsSet2m		,""	,bs.set[2].mode				,u8Frmt			,chmodAlways	,1		,0		,2			,1		,1		,0	,prmEeprom)
+parametres(bsSet2u		,""	,bs.set[2].u				,u16Frmt		,chmodAlways	,0		,0		,36.000		,0.010	,1.000	,3	,prmEeprom)
+parametres(bsSet2i		,""	,bs.set[2].i				,u16Frmt		,chmodAlways	,0		,0		,4.000		,0.001	,0.500	,3	,prmEeprom)
+parametres(bsSet2m		,""	,bs.set[2].mode				,u8Frmt			,chmodAlways	,0		,0		,2			,1		,1		,0	,prmEeprom)
 
 //Charger Task
-parametres(chu			,""	,ch.u						,u16Frmt		,chmodAlways	,4.200	,0		,36.000		,0.010	,4.200	,3	,prmEeprom)
-parametres(chi			,""	,ch.i						,u16Frmt		,chmodAlways	,0.100	,0		,4.000		,0.001	,0.100	,3	,prmEeprom)
-parametres(cht			,""	,ch.t						,u16Frmt		,chmodAlways	,5		,0		,300		,1		,10		,0	,prmEeprom)
-parametres(chm			,""	,ch.mode					,u8Frmt			,chmodAlways	,1		,0		,1			,1		,1		,0	,prmEeprom)
+parametres(chu			,""	,ch.u						,u16Frmt		,chmodAlways	,0		,0		,36.000		,0.010	,1.000	,3	,prmEeprom)
+parametres(chi			,""	,ch.i						,u16Frmt		,chmodAlways	,0		,0		,4.000		,0.001	,0.500	,3	,prmEeprom)
+parametres(cht			,""	,ch.t						,u16Frmt		,chmodAlways	,0		,0		,4.000		,0.001	,0.500	,3	,prmEeprom)
+parametres(chm			,""	,ch.mode					,u8Frmt			,chmodAlways	,0		,0		,1			,1		,1		,0	,prmEeprom)
 
 //Regulator task
 parametres(regu			,""	,fp.tf.task.u				,u32Frmt		,chmodAlways	,0		,0		,36.0000	,0.0001	,0.5000	,6	,prmNotSave)

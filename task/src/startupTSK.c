@@ -18,7 +18,7 @@
 uint32_t startCounter;	///< Device start counter
 
 /*!****************************************************************************
- * @brief
+ * @brief	GUI invitation program task
  */
 void startupTSK(void *pPrm){
 	while(1){
@@ -32,6 +32,7 @@ void startupTSK(void *pPrm){
 
 		//setLcdBrightness(fp.fpSet.lcdLight);
 		//iq_mandelbrot();
+
 		lcd_setColor(black, white);
 		lcd_fillScreen(black);
 		lcd_PrintImageMonochrome((DISP_W - ImageLogo.w) / 2, 3, black, white, &ImageLogo);  //Logo
@@ -50,27 +51,31 @@ void startupTSK(void *pPrm){
 		vTaskDelay(pdMS_TO_TICKS(300));
 		setLcdBrightness(fp.fpSet.lcdLight);
 
-		if((fp.state.sysSettingLoadDefault != 0)||((fp.state.sysSettingLoadDefault != 0))){
+		//Run key process
+		for(uint32_t cnt = 0; cnt < KEY_SAMPLES; cnt++){
+			keyProc();
+		}
+
+		if(keyState(kMode)){
+			selWindow(settingWindow);
+		}else{
+			selWindow(baseWindow);
+		}
+
+		if((fp.state.sysSettingLoadDefault != 0)||((fp.state.userSettingLoadDefault != 0))){
 			lcd_fillScreen(black);
 			if(fp.state.sysSettingLoadDefault != 0){
 				lcd_putStr(00, 00, &arial, 0, "Load default system");
 				lcd_putStr(00, 20, &arial, 0, "setting");
 			}
-			if(fp.state.sysSettingLoadDefault != 0){
+			if(fp.state.userSettingLoadDefault != 0){
 				lcd_putStr(00, 40, &arial, 0, "Load default user");
 				lcd_putStr(00, 60, &arial, 0, "setting");
 			}
-			while(keyProc() == 0);
+			while(keyProc() == 0){
+				vTaskDelay(pdMS_TO_TICKS(10));
+			}
 			BeepTime(ui.beep.key.time, ui.beep.key.freq);
-		}
-
-		//Run key process
-		for(uint32_t cnt = 0; (cnt <= KEY_SAMPLES) && (keyProc() == 0); cnt++);
-
-		if(keyState(kOnOff)){
-			selWindow(settingWindow);
-		}else{
-			selWindow(baseWindow);
 		}
 	}
 }

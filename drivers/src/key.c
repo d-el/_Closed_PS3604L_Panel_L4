@@ -21,7 +21,7 @@ key_type key;
  */
 void dInUpdate(key_type *pkey, uint32_t num, uint32_t val){
 	if(val != 0){
-		if(pkey->dInFilterCnt[num] <= (KEY_SAMPLES - 1)){
+		if(pkey->dInFilterCnt[num] < (KEY_SAMPLES - 1)){
 			pkey->dInFilterCnt[num]++;
 		}else{
 			pkey->dInState |= 1U << num;
@@ -44,7 +44,7 @@ uint32_t keyProc(void){
 	key_type *pkey = &key;
 	uint32_t mask;
 	uint32_t iterator = 0;
-	
+
 	/***********************************************
 	 * Физические кнопки
 	 */
@@ -56,7 +56,7 @@ uint32_t keyProc(void){
 	dInUpdate(pkey, 4, !gppin_get(GP_bZero));
 	dInUpdate(pkey, 5, !gppin_get(GP_bUp));
 	dInUpdate(pkey, 6, !gppin_get(GP_bDown));
-	
+
 	//Детектируем фронт сигнала
 	for(mask = 1 << 0; mask < (1 << KEY_NUM); mask <<= 1){
 		if(((pkey->dInPrevState & mask) == 0) && ((pkey->dInState & mask) != 0)){
@@ -64,7 +64,7 @@ uint32_t keyProc(void){
 		}else{
 			pkey->keyState &= ~mask;
 		}
-		
+
 		//Reiteration
 		if((pkey->reiterationSelect & mask) != 0){
 			if((pkey->dInState & mask) != 0){
@@ -86,7 +86,7 @@ uint32_t keyProc(void){
 		iterator++;
 	}
 	pkey->dInPrevState = pkey->dInState;
-	
+
 	return pkey->keyState;
 }
 

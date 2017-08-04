@@ -13,7 +13,6 @@
  * Include
  */
 #include "spfd54124b.h"
-#include "fonts.h"
 
 /*!****************************************************************************
  * Define
@@ -53,6 +52,8 @@ extern const font_type arial;
 extern const font_type ico;
 extern const image_type ImageLogo;
 extern const uint8_t ImStart[];
+extern const char fonts6x8[];
+extern const unsigned char fonts8x12[];
 
 /*!****************************************************************************
  * Macro functions
