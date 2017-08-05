@@ -1,12 +1,10 @@
 ﻿/*!****************************************************************************
- * @file    uart.h
- * @author  Storozhenko Roman - D_EL
- * @version V1.4
- * @brief   driver for uart of STM32L4 MCUs
- * @date    09.01.2016
- * @history 27-02-2015
- * @history 26.03.2016 - remade for new gpio driver
- * @history 24.09.2016 - rx isr, uart write
+ * @file		uart.c
+ * @author		d_el - Storozhenko Roman
+ * @version		V1.5
+ * @date    	09.01.2016
+ * @copyright	GNU Lesser General Public License v3
+ * @brief		driver for uart of STM32L4 MCUs
  */
 #ifndef UART_H
 #define UART_H
@@ -21,12 +19,10 @@
 #include "OSinit.h"
 
 /*!****************************************************************************
- * User define
+ * Define
  */
 //UART1
 #define     UART1_USE                   (0)
-#define     UART1_Tx_HOOK               (0)
-#define     UART1_Rx_HOOK               (0)
 #define     UART1_TxBffSz               (16)
 #define     UART1_RxBffSz               (128)
 #define     UART1_RxDmaInterruptPrior   (15)
@@ -38,8 +34,6 @@
 
 //UART2
 #define     UART2_USE                   (1)
-#define     UART2_Tx_HOOK               (0)
-#define     UART2_Rx_HOOK               (1)
 #define     UART2_TxBffSz               (64)
 #define     UART2_RxBffSz               (64)
 #define     UART2_RxDmaInterruptPrior   (15)
@@ -50,8 +44,6 @@
 
 //UART3
 #define     UART3_USE                   (0)
-#define     UART3_Tx_HOOK               (0)
-#define     UART3_Rx_HOOK               (0)
 #define     UART3_TxBffSz               (255)
 #define     UART3_RxBffSz               (255)
 #define     UART3_RxDmaInterruptPrior   (15)
@@ -61,30 +53,41 @@
 #define     UART3_RX_IDLE_LINE_MODE     (1)
 
 /*!****************************************************************************
- * User enum
+ * Enumeration
  */
 
-/*!****************************************************************************
- * User typedef
+/******************************************************************************
+ * Typedef
  */
 typedef enum {
-	BR9600, BR38400, BR115200
+	BR9600,
+	BR38400,
+	BR115200
 } uartBaudRate_type;
 
 typedef enum {
-	uartTxFree, uartTxRun, uartTxSuccess, uartTxErr
+	uartTxFree,
+	uartTxRun,
+	uartTxSuccess,
+	uartTxErr
 } uartTxState_type;
 
 typedef enum {
-	uartRxFree, uartRxRun, uartRxSuccess, uartRxStop, uartRxErr
+	uartRxFree,
+	uartRxRun,
+	uartRxSuccess,
+	uartRxStop,
+	uartRxErr
 } uartRxState_type;
 
 typedef struct uartStruct{
-	USART_TypeDef				*pUart;
-	uint8_t						*pTxBff;
-	uint8_t						*pRxBff;
+	USART_TypeDef 				*pUart;
+	uint8_t 					*pTxBff;
+	uint8_t 					*pRxBff;
 	DMA_Channel_TypeDef 		*pUartTxDmaCh;
 	DMA_Channel_TypeDef 		*pUartRxDmaCh;
+	void (*txHoock)(struct uartStruct *uart);
+	void (*rxHoock)(struct uartStruct *uart);
 	volatile uartTxState_type 	txState :8;
 	volatile uartRxState_type 	rxState :8;
 	uartTxState_type 			baudRate :4;
@@ -92,15 +95,12 @@ typedef struct uartStruct{
 	uint8_t 					rxIdleLineMode :1;
 	volatile uint16_t 			txCnt;
 	volatile uint16_t 			rxCnt;
-
-	void (*txHoock)(struct uartStruct *uart);
-	void (*rxHoock)(struct uartStruct *uart);
 } uart_type;
 
 typedef void (*uartCallback_type)(uart_type *uart);
 
 /*!****************************************************************************
- * Extern viriables
+ * Exported variables
  */
 extern uint32_t usartBaudRate[3];
 #if (UART1_USE == 1)
@@ -118,18 +118,6 @@ extern uart_type *uart3;
 /*!****************************************************************************
  * Macro functions
  */
-#define uartGetRemainTx(uartx)      (uartx->pUartTxDmaCh->CNDTR)
-#define uartGetRemainRx(uartx)      (uartx->pUartRxDmaCh->CNDTR)
-
-__attribute__((always_inline)) __STATIC_INLINE
-void uart2RxHook(void){
-	BaseType_t xHigherPriorityTaskWoken;
-	xHigherPriorityTaskWoken = pdFALSE;
-	xSemaphoreGiveFromISR(uart2RxSem, &xHigherPriorityTaskWoken);
-	if(xHigherPriorityTaskWoken != pdFALSE){
-		portEND_SWITCHING_ISR(xHigherPriorityTaskWoken);
-	}
-}
 
 /*!****************************************************************************
  * Prototypes for the functions
@@ -143,4 +131,5 @@ void uart_read(uart_type *uartx, void *dst, uint16_t len);
 void uart_stopRead(uart_type *uartStruct);
 
 #endif //UART_H
-/**************** (C) COPYRIGHT ************* END OF FILE ********* D_EL *****/
+/*************** LGPL ************** END OF FILE *********** D_EL ************/
+

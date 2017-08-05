@@ -1,6 +1,6 @@
 ﻿/**
  *******************************************************************************
- * @file    uartTSK.h 
+ * @file    uartTSK.h
  * @author  D_EL
  * @version V1.0.0
  * @date    2015-08-10
@@ -22,20 +22,24 @@
 #include "pstypes.h"
 #include "OSinit.h"
 #include "systemTSK.h"
-#include "drivers.h"
 #include "uart.h"
 
 /*!****************************************************************************
- * User define
+ * Define
  */
+#define uartTskUse          (uart2)
 #define PieceBufRx          (32)
 #define queueCommandLen     (16)
 #define maxWaitAnswer_ms    (100)
 #define maxUartErr 			(10)
-#define UART_TSK_PERIOD		15	//[ms]
+#define UART_TSK_PERIOD		(15)	///< [ms]
 
 /*!****************************************************************************
- * User typedef
+ * Enumeration
+ */
+
+/******************************************************************************
+ * Typedef
  */
 typedef enum {
 	uartConnect, uartNoConnect, uartUndef,
@@ -49,18 +53,11 @@ typedef struct {
 	volatile uartTskState_type state;
 } uartTsk_type;
 
-/*!****************************************************************************
- * User enum
- */
 
 /*!****************************************************************************
- * Extern viriables
+ * Exported variables
  */
 extern uartTsk_type uartTsk;
-
-/*!****************************************************************************
- * Macro functions
- */
 
 /*!****************************************************************************
  * Macro functions
