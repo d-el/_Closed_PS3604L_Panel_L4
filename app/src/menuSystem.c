@@ -298,7 +298,7 @@ void menuEngine(const menuItem_type *startMenuItem){
 		}
 		lcd_setColor(black, green);
 		memset(mstring + strlen(mstring), ' ', (MENU_SCREEN_W) / 8 - strlen(mstring));
-		lcd_putString8x12(0, 0, mstring);		//Вывод на дисплей
+		lcd_putStr(0, 0, &font8x12, 0, mstring);	//Вывод на дисплей
 
 		/******************************
 		 * Выводим все строки текущего уровня меню
@@ -318,7 +318,7 @@ void menuEngine(const menuItem_type *startMenuItem){
 				sprintf(mstring, "%s", vMenu->label);
 			}
 
-			lcd_putString8x12(0, MENU_Y_DISTANCE + itemNum * MENU_Y_DISTANCE, mstring);	//Вывод на дисплей
+			lcd_putStr(0, MENU_Y_DISTANCE + itemNum * MENU_Y_DISTANCE, &font8x12, 0, mstring);	//Вывод на дисплей
 
 			if(vMenu->prmHandle != NULL){
 				switch(vMenu->prmHandle->type){
@@ -358,7 +358,7 @@ void menuEngine(const menuItem_type *startMenuItem){
 				uint8_t slen = strlen(mstring);
 				memset(mstring + slen, ' ', (MENU_SCREEN_W - MENU_POS_VAR) / 8 - slen);
 				mstring[(MENU_SCREEN_W - MENU_POS_VAR) / 8] = '\0';
-				lcd_putString8x12(MENU_POS_VAR, MENU_Y_DISTANCE + itemNum * MENU_Y_DISTANCE, mstring);		//Вывод на дисплей
+				lcd_putStr(MENU_POS_VAR, MENU_Y_DISTANCE + itemNum * MENU_Y_DISTANCE, &font8x12, 0, mstring);		//Вывод на дисплей
 			}
 
 			if(vMenu == vMenu->next){

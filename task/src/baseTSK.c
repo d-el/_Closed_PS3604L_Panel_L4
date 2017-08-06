@@ -181,7 +181,7 @@ void baseTSK(void *pPrm){
 			lcd_setColor(black, ui.color.voltage);
 		}
 		lcd_putStr(16, 0, &dSegBold, 6, str);
-		lcd_putChar8x12(150, 18, 'V');
+		lcd_putChar(150, 18, &font8x12, 'V');
 
 		//Печать значения тока
 		if(varParam == VAR_CURR){
@@ -193,18 +193,18 @@ void baseTSK(void *pPrm){
 		if(fp.tf.state.bit.switchIsON != 0){
 			if(measI < 99000){
 				sprintf(str, "%2u.%03u", measI / 1000, measI % 1000);
-				lcd_putChar8x12(150, 36, 'm');
-				lcd_putChar8x12(150, 49, 'A');
+				lcd_putChar(150, 36, &font8x12, 'm');
+				lcd_putChar(150, 49, &font8x12, 'A');
 			}else{
 				sprintf(str, "%2u.%03u", measI / 1000000, (measI / 1000) % 1000);
-				lcd_putChar8x12(150, 36, ' ');
-				lcd_putChar8x12(150, 49, 'A');
+				lcd_putChar(150, 36, &font8x12, ' ');
+				lcd_putChar(150, 49, &font8x12, 'A');
 			}
 
 		}else{
 			strcpy(str, "--.---");
-			lcd_putChar8x12(150, 36, ' ');
-			lcd_putChar8x12(150, 49, ' ');
+			lcd_putChar(150, 36, &font8x12, ' ');
+			lcd_putChar(150, 49, &font8x12, ' ');
 		}
 		lcd_putStr(16, 36, &dSegBold, 6, str);
 
@@ -312,26 +312,26 @@ void printStatusBar(void){
 
 		//Выходная мощность
 		sprintf(str, "%02u.%03u W", fp.tf.meas.power / 1000, fp.tf.meas.power % 1000);
-		lcd_putString6x8(0, 110, str);
+		lcd_putStr(0, 110, &font6x8, 0, str);
 
 		//Сопротивление нагузки
 		if(fp.tf.meas.resistens != 99999){
 			sprintf(str, "%05u  \xB1", fp.tf.meas.resistens);
-			lcd_putString6x8(0, 120, str);
+			lcd_putStr(0, 120, &font6x8, 0, str);
 		}else{
-			lcd_putString6x8(0, 120, " ---   \xB1");
+			lcd_putStr(0, 120, &font6x8, 0, " ---   \xB1");
 		}
 
 		//Печать температуры
 		sprintf(str, "%02u.%u \xB0 C", fp.tf.meas.temperatureLin / 10, fp.tf.meas.temperatureLin % 10);
-		lcd_putString6x8(60, 120, str);
+		lcd_putStr(60, 120, &font6x8, 0, str);
 
 		//Печать времени
 		rtc_getTime(&timeStrct);
 		strftime(str, sizeof(str), "%H:%M:%S", &timeStrct);
-		lcd_putString6x8(110, 110, str);
+		lcd_putStr(110, 110, &font6x8, 0, str);
 		strftime(str, sizeof(str), "%d.%m.%y", &timeStrct);
-		lcd_putString6x8(110, 120, str);
+		lcd_putStr(110, 120, &font6x8, 0, str);
 
 		errPrev = 0;
 	}

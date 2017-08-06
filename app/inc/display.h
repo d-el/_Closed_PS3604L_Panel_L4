@@ -47,13 +47,12 @@ typedef struct {
  * Exported variables
  */
 extern char str[30];
-extern const font_type dSegBold;
+extern const font_type font8x12;
+extern const font_type font6x8;
 extern const font_type arial;
+extern const font_type dSegBold;
 extern const font_type ico;
 extern const image_type ImageLogo;
-extern const uint8_t ImStart[];
-extern const char fonts6x8[];
-extern const unsigned char fonts8x12[];
 
 /*!****************************************************************************
  * Macro functions
@@ -68,12 +67,6 @@ void lcd_fillScreen(uint16_t color);
 void lcd_fillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color);
 void lcd_putChar(uint16_t x, uint16_t y, const font_type *font, char c);
 void lcd_putStr(uint16_t x, uint16_t y, const font_type *font, uint8_t distance, const char *s);
-
-void lcd_putChar6x8(uint8_t x, uint8_t y, uint8_t c);
-void lcd_putString6x8(uint8_t x, uint8_t y, const char *s);
-void lcd_putChar8x12(uint8_t x, uint8_t y, uint8_t c);
-void lcd_putString8x12(uint8_t x, uint8_t y, const char *s);
-
 void lcd_PrintImage16bit(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const void *pIm);
 void lcd_PrintImage8bit(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const void *pIm);
 void lcd_PrintImageMonochrome(uint8_t x, uint8_t y, uint16_t color, uint16_t backgroundColor, const image_type *image);

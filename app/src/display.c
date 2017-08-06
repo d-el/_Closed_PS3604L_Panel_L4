@@ -115,68 +115,6 @@ void lcd_putStr(uint16_t x, uint16_t y, const font_type *font, uint8_t distance,
 }
 
 /*!****************************************************************************
- * @brief Знакогенератор (вывод еденичного символа 6x8)
- */
-void lcd_putChar6x8(uint8_t x, uint8_t y, uint8_t c){
-	uint8_t ch, h, w;
-
-	c = c - 0x20;
-
-	for(h = 0; h < 8; h++){           //Every column of the character
-		ch = fonts6x8[c * 8 + h];
-		for(w = 0; w < 6; w++){       //Write the pixels
-			if((ch & (0x20 >> w)) != 0){
-				lcd_setPixel(x + w, y + h, uiContentColor);
-			}else{
-				lcd_setPixel(x + w, y + h, uiBackgroundColor);
-			}
-		}
-	}
-}
-
-/*!****************************************************************************
- * @brief Вывод строки символов 6x8
- */
-void lcd_putString6x8(uint8_t x, uint8_t y, const char *s){
-	while(*s){
-		lcd_putChar6x8(x, y, *s);
-		s++;
-		x += 6;
-	}
-}
-
-/*!****************************************************************************
- * @brief вывод символа 8x12 на дисплей
- */
-void lcd_putChar8x12(uint8_t x, uint8_t y, uint8_t c){
-	uint8_t ch, h, w, i, j;
-
-	c = c - 0x20;
-
-	for(h = 0; h < 12; h++){          // every column of the character
-		ch = fonts8x12[c * 12 + h];
-		for(w = 0; w < 8; w++){      // write the pixels
-			if((ch & (0x80 >> w)) != 0){
-				lcd_setPixel(x + w, y + h, uiContentColor);
-			}else{
-				lcd_setPixel(x + w, y + h, uiBackgroundColor);
-			}
-		}
-	}
-}
-
-/*!****************************************************************************
- * @brief вывод текстовой строки 8x12 на дисплей
- */
-void lcd_putString8x12(uint8_t x, uint8_t y, const char *s){
-	while(*s){
-		lcd_putChar8x12(x, y, *s);
-		s++;
-		x += 8;
-	}
-}
-
-/*!****************************************************************************
  * @brief Вывод картинки
  */
 void lcd_PrintImage16bit(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const void *pIm){
