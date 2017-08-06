@@ -26,7 +26,7 @@ void loadParameters(void);
  * @brief
  */
 void systemTSK(void *pPrm){
-	portTickType 	xLastWakeTime = xTaskGetTickCount();
+	TickType_t 		xLastWakeTime = xTaskGetTickCount();
 	selWindow_type 	selWindowPrev = noneWindow;
 	BaseType_t 		Result = pdTRUE;
 
@@ -87,7 +87,7 @@ void systemTSK(void *pPrm){
 		}
 
 		/*************************************/
-		vTaskDelayUntil(&xLastWakeTime, msToSt(SYSTEM_TSK_PERIOD));
+		vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(SYSTEM_TSK_PERIOD));
 	}
 }
 

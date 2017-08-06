@@ -24,7 +24,7 @@
 #define SYSTEM_TSK_SZ_STACK     128
 #define BASE_TSK_SZ_STACK       256
 #define CHARG_TSK_SZ_STACK      256
-#define UART_TSK_SZ_STACK       64
+#define UART_TSK_SZ_STACK       128
 #define SETT_TSK_SZ_STACK       256
 #define STARTUP_TSK_SZ_STACK    256
 #define CUBE_TSK_SZ_STACK       256

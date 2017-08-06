@@ -11,11 +11,7 @@
  * Include
  */
 #include "drivers.h"
-#include "prmSystem.h"
-#include "menuSystem.h"
-#include "display.h"
-#include "semihosting.h"
-#include "version.h"
+#include "OSinit.h"
 
 /*!****************************************************************************
  * Define

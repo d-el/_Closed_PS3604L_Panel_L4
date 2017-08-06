@@ -17,17 +17,17 @@ charge_type ch;
  * Charger task
  */
 void chargeTSK(void *pPrm){
-	portTickType xLastWakeTime = xTaskGetTickCount();            // Инициализируем xLastWakeTime текущим временем
-	const prmHandle_type *sHandle = &prmh[Nchu];
-	const prmHandle_type *pHandle = &prmh[Nchu];
-	uint32_t measV;	//[uV]
-	uint32_t measI;	//[uA]
-	uint8_t varParam = 0;
-	uint8_t bigstepUp = 0;
-	uint8_t bigstepDown = 0;
-	uint8_t setDef = 0;
-	enStatus_type enstatus;
-	uint8_t chargerIsOn = 0;
+	TickType_t 				xLastWakeTime = xTaskGetTickCount();
+	const prmHandle_type 	*sHandle = &prmh[Nchu];
+	const prmHandle_type 	*pHandle = &prmh[Nchu];
+	uint32_t 				measV;	//[uV]
+	uint32_t 				measI;	//[uA]
+	uint8_t 				varParam = 0;
+	uint8_t 				bigstepUp = 0;
+	uint8_t 				bigstepDown = 0;
+	uint8_t 				setDef = 0;
+	enStatus_type 			enstatus;
+	uint8_t 				chargerIsOn = 0;
 
 	lcd_fillScreen(black);
 

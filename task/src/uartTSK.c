@@ -37,7 +37,7 @@ void uartTSK(void *pPrm){
 	uart_setCallback(uartTskUse, (uartCallback_type)NULL, uart2RxHook);
 
 	// Create a queue
-	queueCommand = xQueueCreate(queueCommandLen, sizeof(request_type));
+	queueCommand = xQueueCreate(QUEUE_COMMAND_LEN, sizeof(request_type));
 	if(queueCommand == NULL)
 		while(1)
 			;
@@ -75,19 +75,19 @@ void uartTSK(void *pPrm){
 				uartTsk.state = uartConnect;
 			}else{
 				uartTsk.errorAnswer++;
-				if((uartTsk.errorAnswer - errPrev) > maxUartErr){
+				if((uartTsk.errorAnswer - errPrev) > MAX_UART_ERR){
 					uartTsk.state = uartNoConnect;
 				}
 			}
 		}else{
 			//Таймаут
 			uartTsk.noAnswer++;
-			if((uartTsk.noAnswer - noAnswerPrev) > maxUartErr){
+			if((uartTsk.noAnswer - noAnswerPrev) > MAX_UART_ERR){
 				uartTsk.state = uartNoConnect;
 			}
 		}
 
-		vTaskDelayUntil(&xLastWakeTime, msToSt(UART_TSK_PERIOD));
+		vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(UART_TSK_PERIOD));
 	}
 }
 

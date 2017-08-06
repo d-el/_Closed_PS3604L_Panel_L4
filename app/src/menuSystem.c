@@ -369,7 +369,7 @@ void menuEngine(const menuItem_type *startMenuItem){
 		}
 
 		/*************************************/
-		vTaskDelayUntil(&xLastWakeTime, msToSt(MENU_PERIOD));
+		vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(MENU_PERIOD));
 	}
 }
 

@@ -23,11 +23,11 @@ uint8_t calibratePoint;
  */
 void settingTSK(void *pPrm){
 	enSetNtic(0);
-	
+
 	menuEngine(&item_voltmeter);
 	selWindow(baseWindow);
 	while(1){
-		vTaskDelay(msToSt(100));
+		vTaskDelay(pdMS_TO_TICKS(100));
 	}
 }
 

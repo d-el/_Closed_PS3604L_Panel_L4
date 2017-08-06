@@ -28,10 +28,9 @@
  * Define
  */
 #define uartTskUse          (uart2)
-#define PieceBufRx          (32)
-#define queueCommandLen     (16)
+#define QUEUE_COMMAND_LEN   (16)
 #define maxWaitAnswer_ms    (100)
-#define maxUartErr 			(10)
+#define MAX_UART_ERR 		(10)
 #define UART_TSK_PERIOD		(15)	///< [ms]
 
 /*!****************************************************************************
