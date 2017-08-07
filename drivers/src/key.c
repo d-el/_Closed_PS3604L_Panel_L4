@@ -1,9 +1,10 @@
 ﻿/*!****************************************************************************
- * @file    		key.c
- * @author  		Storozhenko Roman - D_EL
- * @version 		V2.0
- * @date    		07.06.2017
- * @copyright 	GNU Public License
+ * @file		key.c
+ * @author		d_el
+ * @version		V1.0
+ * @date		07.06.2017
+ * @copyright	GNU Lesser General Public License v3
+ * @brief		Driver for keyboard
  */
 
 /*!****************************************************************************
@@ -45,10 +46,7 @@ uint32_t keyProc(void){
 	uint32_t mask;
 	uint32_t iterator = 0;
 
-	/***********************************************
-	 * Физические кнопки
-	 */
-	//Фильтруем и обновляем дискретные входы
+	//Physical buttons
 	dInUpdate(pkey, 0, !gppin_get(GP_bMode));
 	dInUpdate(pkey, 1, !gppin_get(GP_bView));
 	dInUpdate(pkey, 2, !gppin_get(GP_bOnOff));
@@ -57,7 +55,7 @@ uint32_t keyProc(void){
 	dInUpdate(pkey, 5, !gppin_get(GP_bUp));
 	dInUpdate(pkey, 6, !gppin_get(GP_bDown));
 
-	//Детектируем фронт сигнала
+	//Detect signal front
 	for(mask = 1 << 0; mask < (1 << KEY_NUM); mask <<= 1){
 		if(((pkey->dInPrevState & mask) == 0) && ((pkey->dInState & mask) != 0)){
 			pkey->keyState |= mask;
@@ -113,4 +111,4 @@ void ksSet(uint16_t toFirstReiteration, uint16_t toReiteration, kKey_type reiter
 	key.reiterationSelect = reiterationKeyMask;
 }
 
-/*************** GNU GPL ************** END OF FILE ********* D_EL ***********/
+/*************** LGPL ************** END OF FILE *********** D_EL ************/

@@ -1,9 +1,10 @@
 ﻿/*!****************************************************************************
- * @file    		key.h
- * @author  		Storozhenko Roman - D_EL
- * @version 		V2.0
- * @date    		07.06.2017
- * @copyright 	GNU Public License
+ * @file		key.h
+ * @author		d_el
+ * @version		V1.0
+ * @date		07.06.2017
+ * @copyright	GNU Lesser General Public License v3
+ * @brief		Driver for keyboard
  */
 #ifndef key_H
 #define key_H
@@ -16,17 +17,17 @@
 #include "gpio.h"
 
 /*!****************************************************************************
- * User include
+ * Define
+ */
+#define KEY_NUM             ( 7 )
+#define KEY_SAMPLES         ( 3 )
+
+/*!****************************************************************************
+ * Enumeration
  */
 
 /*!****************************************************************************
- * User define
- */
-#define KEY_NUM             7
-#define KEY_SAMPLES         3
-
-/*!****************************************************************************
- * User typedef
+ * Typedef
  */
 typedef enum {
 	kMode = 	(1 << 0),
@@ -51,11 +52,7 @@ typedef struct {
 } key_type;
 
 /*!****************************************************************************
- * User enum
- */
-
-/*!****************************************************************************
- * External variables
+ * Exported variables
  */
 extern key_type key;
 
@@ -64,11 +61,11 @@ extern key_type key;
  */
 
 /*!****************************************************************************
- * Prototypes for the functions
+ * Function declaration
  */
 uint32_t keyProc(void);
 uint32_t keyState(kKey_type keyMask);
 void ksSet(uint16_t toFirstReiteration, uint16_t toReiteration, kKey_type reiterationKeyMask);
 
 #endif //key_H
-/*************** GNU GPL ************** END OF FILE ********* D_EL ***********/
+/*************** LGPL ************** END OF FILE *********** D_EL ************/

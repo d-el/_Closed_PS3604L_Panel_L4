@@ -1,10 +1,10 @@
 ﻿/*!****************************************************************************
- * @file    beep.h
- * @author  d_el
- * @version V1.0
- * @date    19.12.2014, by d_el
- * @brief   --
- * @copyright GNU Public License
+ * @file		beep.h
+ * @author		d_el
+ * @version		V1.0
+ * @date		19.12.2014
+ * @copyright	GNU Lesser General Public License v3
+ * @brief		Driver beep
  */
 #ifndef beep_H
 #define beep_H
@@ -17,38 +17,38 @@
 #include "board.h"
 
 /*!****************************************************************************
- * User define
+ * Define
  */
-#define F_BEEP              4000                                //Частота пищалки (1 - 32767)
-#define BEEP_IRQ_Priority   15
-#define BEEP_TIM            TIM15
-#define TIME_B_TIM          TIM6
+#define F_BEEP              ( 4000 )
+#define BEEP_IRQ_Priority   ( 15 )
+#define BEEP_TIM            ( TIM15 )
+#define TIME_B_TIM          ( TIM6 )
 
 /*!****************************************************************************
- * User enum
- */
-
-/*!****************************************************************************
- * User typedef
+ * Enumeration
  */
 
 /*!****************************************************************************
- * Extern viriables
+ * Typedef
+ */
+
+/*!****************************************************************************
+ * Exported variables
  */
 
 /*!****************************************************************************
  * Macro functions
  */
-#define	beepON()            BEEP_TIM->CR1 |= TIM_CR1_CEN        //Включить пищалку
-#define	beepOFF()           BEEP_TIM->CR1 &= ~TIM_CR1_CEN       //Выключить пищалку
+#define	beepON()            BEEP_TIM->CR1 |= TIM_CR1_CEN
+#define	beepOFF()           BEEP_TIM->CR1 &= ~TIM_CR1_CEN
 #define	beepSetFreq(freq)   BEEP_TIM->ARR = SYSTEM_FREQUENCY / (freq) / 2;
 
 /*!****************************************************************************
- * Prototypes for the functions
+ * Function declaration
  */
 void BeepTime(uint16_t time, uint16_t ferq);
 void beep_init(void);
 void Dht(void *pvParameters);
 
 #endif //beep_H
-/*************** GNU GPL ************** END OF FILE ********* D_EL ***********/
+/*************** LGPL ************** END OF FILE *********** D_EL ************/

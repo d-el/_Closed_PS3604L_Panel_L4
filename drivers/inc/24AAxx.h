@@ -29,14 +29,17 @@
  * Enumeration
  */
 enum {
-	eepWrite = 0, eepRead = 1
+	eepWrite = 0,
+	eepRead = 1
 };
 
 /*!****************************************************************************
  * Typedef
  */
 typedef enum {
-	eepOk = 0, eepI2cError, eepOtherError
+	eepOk = 0,
+	eepI2cError,
+	eepOtherError
 } eepStatus_type;
 
 typedef union {

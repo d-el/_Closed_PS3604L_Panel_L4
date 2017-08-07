@@ -1,9 +1,10 @@
 ﻿/*!****************************************************************************
- * @file    delay.c
- * @author  Storozhenko Roman - D_EL
- * @version V2.2
- * @date    17-01-2015
- * @copyright GNU Public License
+ * @file		delay.c
+ * @author		d_el
+ * @version		V1.0
+ * @date		17-01-2015
+ * @copyright	GNU Lesser General Public License v3
+ * @brief		Driver for system delay
  */
 
 /*!****************************************************************************
@@ -14,7 +15,7 @@
 #if(DELTIM_USE_STATIC_INLINE == 0)
 
 /*!****************************************************************************
- * @brief    Задержка us
+ * @brief
  */
 void delay_us(uint16_t us){
 	DELTIM->PSC = DELTIM_FREQ / 1000000 - 1;                  	//Предделитель на 1us
@@ -27,7 +28,7 @@ void delay_us(uint16_t us){
 }
 
 /*!****************************************************************************
- * @brief    Задержка ms
+ * @brief
  */
 void delay_ms(uint16_t ms){
 	DELTIM->PSC = DELTIM_FREQ / 1000 - 1;                  		//Предделитель на 1ms
@@ -41,4 +42,4 @@ void delay_ms(uint16_t ms){
 
 #endif  //#if(DELTIM_USE_STATIC_INLINE == 0)
 
-/*************** GNU GPL ************** END OF FILE ********* D_EL ***********/
+/*************** LGPL ************** END OF FILE *********** D_EL ************/
