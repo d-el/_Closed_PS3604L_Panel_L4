@@ -333,6 +333,33 @@ void printStatusBar(void){
 		strftime(str, sizeof(str), "%d.%m.%y", &timeStrct);
 		lcd_putStr(110, 120, &font6x8, 0, str);
 
+		//WLAN
+		static TickType_t xTime;
+		static uint8_t ledon = 0;
+		if(wlanActive != 0){
+			if(wlanRxActive != 0){
+				xTime = xTaskGetTickCount();
+				wlanRxActive = 0;
+				ledon = 1;
+			}
+			if((ledon != 0)&&((xTaskGetTickCount() - xTime) >= 500)){
+				ledon = 0;
+			}
+
+			if(ledon == 0){
+				lcd_setColor(black, white);
+			}else{
+				lcd_setColor(black, red);
+			}
+
+			sprintf(str, "WLAN");
+			lcd_putStr(60, 110, &font6x8, 0, str);
+		}
+		else{
+			sprintf(str, "    ");
+			lcd_putStr(60, 110, &font6x8, 0, str);
+		}
+
 		errPrev = 0;
 	}
 }

@@ -23,6 +23,7 @@
 #include "beep.h"
 #include "key.h"
 #include "enco.h"
+#include "wlanTSK.h"
 
 /******************************************************************************
  * Define

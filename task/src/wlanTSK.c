@@ -18,6 +18,8 @@
 uint8_t wlanTx[128];
 uint8_t wlanMas[128];
 uint8_t wlanRx[128];
+uint8_t wlanActive;
+uint8_t wlanRxActive;
 
 /******************************************************************************
  * Local prototypes for the functions
@@ -124,6 +126,10 @@ void wlanTSK(void *pPrm){
 
 	xSemaphoreTake(uart1RxSem, 0);
 
+	strcpy(wlanTx, "Server started\r\n");
+	debugWlanPrint(wlanTx);
+	wlanActive = 1;
+
 	while(1){
 		uart_read(wlanTskUse, wlanRx, 256);
 		xSemaphoreTake(uart1RxSem, portMAX_DELAY);
@@ -137,8 +143,8 @@ void wlanTSK(void *pPrm){
 			uint8_t idClient;
 			uint8_t lenRx;
 			sscanf (wlanRx, "\r\n+IPD,%d,%d", &idClient, &lenRx);
-			sprintf(wlanMas, "cnt = %u, id = %u, len = %u", cnt, idClient, lenRx);
-			debugWlanPrint(wlanMas);
+			//sprintf(wlanMas, "cnt = %u, id = %u, len = %u", cnt, idClient, lenRx);
+			//debugWlanPrint(wlanMas);
 
 			memset(wlanMas, 0, sizeof(wlanMas));
 
@@ -165,6 +171,7 @@ void wlanTSK(void *pPrm){
 			xSemaphoreTake(uart1RxSem, 100);
 
 			BeepTime(10, 4100);
+			wlanRxActive = 1;
 		}
 		cnt++;
 		memset(wlanRx, 0, sizeof(wlanRx));
