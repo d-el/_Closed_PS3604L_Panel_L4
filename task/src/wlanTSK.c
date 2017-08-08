@@ -68,7 +68,15 @@ void wlanTSK(void *pPrm){
 	vTaskDelay(100);
 	debugWlanPrint(wlanRx);
 
-	//
+	//Set MAC
+	strcpy(wlanTx, "AT+CIPSTAMAC_CUR=\"11:22:33:44:55:66\"\r\n");
+	uart_read(wlanTskUse, wlanRx, 256);
+	wlanUartTx(wlanTx, strlen(wlanTx));
+	xSemaphoreTake(uart1RxSem, portMAX_DELAY);
+	vTaskDelay(100);
+	debugWlanPrint(wlanRx);
+
+	//Set MODE 1 : ESP8266 station
 	strcpy(wlanTx, "AT+CWMODE=1\r\n");
 	uart_read(wlanTskUse, wlanRx, 256);
 	wlanUartTx(wlanTx, strlen(wlanTx));
