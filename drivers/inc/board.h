@@ -8,16 +8,19 @@
  */
 
 /**
- * TIM15_CH2 (PB15)              -> PWM Beep
- * TIM6                          -> Time for Beep
+ * TIM15_CH2 (PB15)		-> PWM Beep
+ * TIM6					-> Time for Beep
  *
- * DMA1_Channel3 [TX] -> Канал вывода видеоинформации
+ * DMA1_Channel3 [TX] 	-> SPI1_TX
  *
- * DMA1_Channel4 [TX] -> Передача по I2C2
- * DMA1_Channel5 [RX] -> Прием по I2C2
+ * DMA1_Channel4 [TX] 	-> I2C2_TX
+ * DMA1_Channel5 [RX] 	-> I2C2_RX
  *
- * DMA1_Channel7 [TX] -> Передача по UART2
- * DMA1_Channel6 [RX] -> Прием по UART2
+ * DMA1_Channel7 [TX] 	-> UART2_TX
+ * DMA1_Channel6 [RX] 	-> UART2_RX
+ *
+ * DMA1_Channel6 [TX] 	-> UART1_TX
+ * DMA2_Channel7 [RX] 	-> UART1_RX
  *
  */
 #ifndef board_H

@@ -40,8 +40,9 @@ _Min_Stack_Size = 0x400; /* required amount of stack */
 /* Specify the memory areas */
 MEMORY
 {
-FLASH (rx)      : ORIGIN = 0x8000000, LENGTH = 256K
-RAM (xrw)      : ORIGIN = 0x20000000, LENGTH = 48K
+FLASH (rx)      : ORIGIN = 0x8000000,   LENGTH = 256K
+RAM (xrw)       : ORIGIN = 0x20000000,  LENGTH = 48K
+RAM_2 (xrw)     : ORIGIN = 0x10000000,  LENGTH = 16K
 }
 
 /* Define output sections */
@@ -140,6 +141,17 @@ SECTIONS
     _ebss = .;         /* define a global symbol at bss end */
     __bss_end__ = _ebss;
   } >RAM
+  
+  /* Uninitialized data section on SRAM_2*/
+  .ram2bss : 
+  {
+    . = ALIGN(4);
+    _sram2bss = .;
+    *(.ram2bss) 
+    *(.ram2bss*)
+    . = ALIGN(4);
+    _eram2bss = .;
+  } >RAM_2
 
   /* User_heap_stack section, used to check that there is enough RAM left */
   ._user_heap_stack :

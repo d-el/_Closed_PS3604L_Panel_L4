@@ -21,7 +21,7 @@
 /*!****************************************************************************
  * Memory
  */
-static unsigned char g_buf[16];
+static unsigned char g_buf[128];
 static unsigned char g_buf_len = 0;
 
 /*!****************************************************************************
@@ -47,6 +47,9 @@ void SH_SendChar(uint32_t ch){
  * @return Character to write
  */
 void SH_SendString(const char *str){
+	if(coreIsInDebugMode() == 0){
+		return;
+	}
 	if(SH_DoCommand(0x04, (uint32_t) str, NULL) != 0){
 		return;
 	}
@@ -55,8 +58,8 @@ void SH_SendString(const char *str){
 /*!****************************************************************************
  * @brief    print debug message, printf format
  */
-#define DEBAG_PRINT_APP "D> "
-char debugPrintString[32] = { DEBAG_PRINT_APP };
+#define DEBAG_PRINT_APP "> "
+char debugPrintString[128] = { DEBAG_PRINT_APP };
 void debugn(const char *fmt, ...){
 	if(coreIsInDebugMode() == 0){
 		return;

@@ -21,7 +21,7 @@ uartTsk_type uartTsk = { .state = uartUndef };
 /******************************************************************************
  * Local prototypes for the functions
  */
-static void uart2RxHook(uart_type *puart);
+static void uartTskHook(uart_type *puart);
 
 /*!****************************************************************************
  * @brief
@@ -34,10 +34,10 @@ void uartTSK(void *pPrm){
 	uint16_t 	noAnswerPrev = 0;
 
 	vTaskDelay(1000);
-	uart_setCallback(uartTskUse, (uartCallback_type)NULL, uart2RxHook);
+	uart_setCallback(uartTskUse, (uartCallback_type)NULL, uartTskHook);
 
 	// Create a queue
-	queueCommand = xQueueCreate(QUEUE_COMMAND_LEN, sizeof(request_type));
+	queueCommand = xQueueCreate(UART_TSK_QUEUE_COMMAND_LEN, sizeof(request_type));
 	if(queueCommand == NULL)
 		while(1)
 			;
@@ -51,7 +51,7 @@ void uartTSK(void *pPrm){
 		uart_write(uartTskUse, uartTskUse->pTxBff, sizeof(task_type) + sizeof(uint16_t));
 
 		uart_read(uartTskUse, uartTskUse->pRxBff, sizeof(psState_type) + sizeof(meas_type) + sizeof(uint16_t));
-		res = xSemaphoreTake(uart2RxSem, pdMS_TO_TICKS(maxWaitAnswer_ms));
+		res = xSemaphoreTake(uart2RxSem, pdMS_TO_TICKS(UART_TSK_MAX_WAIT_ms));
 		if(res == pdTRUE){
 			//Приняли ответ
 			crc = GetCrc(uartTskUse->pRxBff, sizeof(psState_type) + sizeof(meas_type) + sizeof(uint16_t));
@@ -75,14 +75,14 @@ void uartTSK(void *pPrm){
 				uartTsk.state = uartConnect;
 			}else{
 				uartTsk.errorAnswer++;
-				if((uartTsk.errorAnswer - errPrev) > MAX_UART_ERR){
+				if((uartTsk.errorAnswer - errPrev) > UART_TSK_MAX_ERR){
 					uartTsk.state = uartNoConnect;
 				}
 			}
 		}else{
 			//Таймаут
 			uartTsk.noAnswer++;
-			if((uartTsk.noAnswer - noAnswerPrev) > MAX_UART_ERR){
+			if((uartTsk.noAnswer - noAnswerPrev) > UART_TSK_MAX_ERR){
 				uartTsk.state = uartNoConnect;
 			}
 		}
@@ -136,7 +136,7 @@ uint8_t waitForTf(void){
 /*!****************************************************************************
  * @brief	uart RX & TX callback
  */
-static void uart2RxHook(uart_type *puart){
+static void uartTskHook(uart_type *puart){
 	BaseType_t xHigherPriorityTaskWoken;
 	xHigherPriorityTaskWoken = pdFALSE;
 	xSemaphoreGiveFromISR(uart2RxSem, &xHigherPriorityTaskWoken);

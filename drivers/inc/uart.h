@@ -1,10 +1,14 @@
 ﻿/*!****************************************************************************
- * @file		uart.c
+ * @file		uart.h
  * @author		d_el - Storozhenko Roman
  * @version		V1.5
  * @date    	09.01.2016
  * @copyright	GNU Lesser General Public License v3
- * @brief		driver for uart of STM32L4 MCUs
+ * @brief		Driver for uart STM32L4 MCUs
+ *
+ * @history 26.03.2016 - remade for new gpio driver
+ * @history 24.09.2016 - rx isr, uart write
+ * @history 05.08.2017 - make callback from pointers
  */
 #ifndef UART_H
 #define UART_H
@@ -22,14 +26,14 @@
  * Define
  */
 //UART1
-#define     UART1_USE                   (0)
+#define     UART1_USE                   (1)
 #define     UART1_TxBffSz               (16)
-#define     UART1_RxBffSz               (128)
+#define     UART1_RxBffSz               (16)
 #define     UART1_RxDmaInterruptPrior   (15)
 #define     UART1_TXIRQPrior            (15)
 #define     UART1_PINAFTX               (7)
 #define     UART1_PINAFRX               (7)
-#define     UART1_HALFDUPLEX            (1)
+#define     UART1_HALFDUPLEX            (0)
 #define     UART1_RX_IDLE_LINE_MODE     (1)
 
 //UART2
@@ -40,6 +44,7 @@
 #define     UART2_TXIRQPrior            (15)
 #define     UART2_PINAFTX               (7)
 #define     UART2_PINAFRX               (7)
+#define     UART2_HALFDUPLEX            (0)
 #define     UART2_RX_IDLE_LINE_MODE     (1)
 
 //UART3
@@ -50,6 +55,7 @@
 #define     UART3_TXIRQPrior            (15)
 #define     UART3_PINAFTX               (7)
 #define     UART3_PINAFRX               (7)
+#define     UART3_HALFDUPLEX            (0)
 #define     UART3_RX_IDLE_LINE_MODE     (1)
 
 /*!****************************************************************************
@@ -62,6 +68,7 @@
 typedef enum {
 	BR9600,
 	BR38400,
+	BR57600,
 	BR115200
 } uartBaudRate_type;
 

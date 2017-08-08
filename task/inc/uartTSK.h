@@ -27,11 +27,11 @@
 /*!****************************************************************************
  * Define
  */
-#define uartTskUse          (uart2)
-#define QUEUE_COMMAND_LEN   (16)
-#define maxWaitAnswer_ms    (100)
-#define MAX_UART_ERR 		(10)
-#define UART_TSK_PERIOD		(15)	///< [ms]
+#define uartTskUse          		(uart2)
+#define UART_TSK_QUEUE_COMMAND_LEN	(16)
+#define UART_TSK_MAX_WAIT_ms    	(100)
+#define UART_TSK_MAX_ERR 			(10)
+#define UART_TSK_PERIOD				(15)	///< [ms]
 
 /*!****************************************************************************
  * Enumeration
